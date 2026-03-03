@@ -278,7 +278,7 @@ footer p{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--muted);}
     <div class="slbl">Actores Clave</div>
     <div class="actor"><div class="ar" style="color:var(--blue)">LÍDER TÉCNICO</div><div class="an">Gerente Informática</div><div class="as">SAP · I-Construye · Maestra datos · Arquitectura sistemas</div></div>
     <div class="actor"><div class="ar" style="color:var(--accent)">LÍDER NEGOCIO</div><div class="an">Gerente Administración</div><div class="as">Procesos · Adopción · Presupuesto · Gestión cambio</div></div>
-    <div class="actor"><div class="ar" style="color:var(--warn)">OPERATIVO</div><div class="an">Key Users × 4 áreas</div><div class="as">Obras · Abastecimiento · Finanzas · Comercial — 30% formal</div></div>
+    <div class="actor"><div class="ar" style="color:var(--warn)">OPERATIVO</div><div class="an">Key Users × 4 áreas</div><div class="as">Obras · Abastecimiento · Finanzas · Comercial — 20% formal</div></div>
     <div class="actor"><div class="ar" style="color:var(--danger)">PATROCINADOR</div><div class="an">Directorio / GG</div><div class="as">Recursos · Patrocinio explícito · Señal cultural</div></div>
   </div>
   <div class="smb">
@@ -575,7 +575,7 @@ var F1 = [
     riesgo:['Sin acta firmada, el proceso pierde legitimidad ante mandos medios','Sin patrocinio explícito de directorio, los Key Users no tendrán autoridad para cambiar procesos','NetRed detectó que la falta de alineamiento estratégico es la primera causa de fracaso en transformaciones similares'],
     indep:'Independencia tiene 35 años y opera como empresa familiar en proceso de institucionalización. Los cambios requieren una señal muy clara desde arriba. La presencia del directorio en este kickoff no es protocolo — es la señal que el resto de la organización necesita ver.'
   },
-  { id:'t2', n:'02', title:'Designar Key Users en 4 áreas con dedicación formal mínima 30% jornada',
+  { id:'t2', n:'02', title:'Designar Key Users en 4 áreas con dedicación formal mínima 20% jornada',
     owners:['GA'], crit:true, area:'gov', prereq:true, src:'Ai-COACH',
     output:'Lista oficial con % dedicación',
     why:'Ai-COACH detectó alta dependencia de personas clave informales. Si no se formaliza quién es el Key User de cada área, el proceso recae siempre en los mismos — que ya están sobrecargados. <b>Sin tiempo asignado formalmente, los KU operarán el cambio fuera de horario, lo que garantiza su abandono.</b>',
@@ -1250,6 +1250,29 @@ checkGate();
     <button class="chat-close" id="chat-close-btn">✕</button>
   </div>
 
+  <!-- API KEY BAR -->
+  <div id="apikey-bar" style="display:flex;align-items:center;gap:6px;padding:7px 11px;border-bottom:1px solid var(--border);background:rgba(245,166,35,.04);">
+    <span style="font-family:'DM Mono',monospace;font-size:.56rem;color:var(--warn);flex-shrink:0;">&#128273; API Key</span>
+    <input id="apikey-input" type="password" placeholder="sk-ant-..." style="flex:1;background:var(--s1);border:1px solid var(--border);border-radius:5px;padding:4px 8px;color:var(--text);font-family:'DM Mono',monospace;font-size:.62rem;outline:none;min-width:0;" />
+    <button id="apikey-toggle" title="Mostrar/ocultar" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:.75rem;flex-shrink:0;padding:2px 4px;">&#128065;</button>
+    <button id="apikey-save" style="background:var(--accent);color:#000;border:none;border-radius:4px;padding:3px 9px;font-family:'DM Mono',monospace;font-size:.58rem;font-weight:700;cursor:pointer;flex-shrink:0;">OK</button>
+  </div>
+  <div id="apikey-ok" style="display:none;align-items:center;gap:6px;padding:6px 11px;border-bottom:1px solid var(--border);background:rgba(39,201,138,.04);">
+    <span style="font-family:'DM Mono',monospace;font-size:.57rem;color:var(--green);">&#10003; API Key cargada &middot; solo en memoria</span>
+    <button id="apikey-change" style="background:none;border:none;color:var(--muted);font-family:'DM Mono',monospace;font-size:.55rem;cursor:pointer;text-decoration:underline;margin-left:auto;">cambiar</button>
+  </div>
+
+  <div id="apikey-bar" style="display:flex;align-items:center;gap:6px;padding:7px 11px;border-bottom:1px solid var(--border);background:rgba(245,166,35,.05);">
+    <span style="font-family:'DM Mono',monospace;font-size:.56rem;color:var(--warn);flex-shrink:0;">&#128273; API Key</span>
+    <input id="apikey-input" type="password" placeholder="sk-ant-api03-..." style="flex:1;background:var(--s1);border:1px solid var(--border);border-radius:5px;padding:4px 8px;color:var(--text);font-family:'DM Mono',monospace;font-size:.62rem;outline:none;min-width:0;" />
+    <button id="apikey-toggle" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:.75rem;flex-shrink:0;padding:2px 4px;line-height:1;">&#128065;</button>
+    <button id="apikey-save" style="background:var(--accent);color:#000;border:none;border-radius:4px;padding:4px 10px;font-family:'DM Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;flex-shrink:0;">OK</button>
+  </div>
+  <div id="apikey-ok" style="display:none;align-items:center;gap:6px;padding:6px 11px;border-bottom:1px solid var(--border);background:rgba(39,201,138,.04);">
+    <span style="font-family:'DM Mono',monospace;font-size:.57rem;color:var(--green);">&#10003; API Key activa &nbsp;&middot;&nbsp; solo en memoria</span>
+    <button id="apikey-change" style="background:none;border:none;color:var(--muted);font-family:'DM Mono',monospace;font-size:.55rem;cursor:pointer;text-decoration:underline;margin-left:auto;padding:0;">cambiar</button>
+  </div>
+
   <div class="ctx-pills">
     <div class="cpill active" data-ctx="general">General</div>
     <div class="cpill" data-ctx="f1">Fase 1</div>
@@ -1339,7 +1362,7 @@ PROBLEMAS ESTRUCTURALES DETECTADOS:
 
 FASE 1 — FUNDAMENTOS (Días 1–30, 9 tareas):
 T01 [PREREQ] Kickoff Comité Digital — acta firmada con directorio
-T02 [PREREQ] Designar Key Users × 4 áreas con 30% dedicación formal
+T02 [PREREQ] Designar Key Users × 4 áreas con 20% dedicación formal
 T03 Inventario fuentes de datos activas (SAP, planillas, Drive, sistemas)
 T04 [PREREQ] Definir sistema fuente único por proceso crítico
 T05 [PREREQ] Maestra de datos v1 — nomenclaturas, formatos, responsables
@@ -1391,6 +1414,7 @@ var CTX_EXTRA = {
 var currentCtx = 'general';
 var chatHistory = [];
 var isTyping = false;
+var userApiKey = '';
 
 // ── UI REFS ───────────────────────────────────────────────────────────────────
 var bubble   = document.getElementById('chat-bubble');
@@ -1410,6 +1434,33 @@ bubble.addEventListener('click', function() {
   }
 });
 closeBtn.addEventListener('click', function() { panel.classList.remove('open'); });
+
+// ── API KEY HANDLERS ──────────────────────────────────────────────────────────
+document.getElementById('apikey-save').addEventListener('click', function() {
+  var val = document.getElementById('apikey-input').value.trim();
+  if (val.length < 20) {
+    document.getElementById('apikey-input').style.borderColor = 'var(--danger)';
+    return;
+  }
+  userApiKey = val;
+  document.getElementById('apikey-bar').style.display = 'none';
+  document.getElementById('apikey-ok').style.display = 'flex';
+});
+document.getElementById('apikey-input').addEventListener('keydown', function(e) {
+  this.style.borderColor = 'var(--border)';
+  if (e.key === 'Enter') document.getElementById('apikey-save').click();
+});
+document.getElementById('apikey-toggle').addEventListener('click', function() {
+  var inp = document.getElementById('apikey-input');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+});
+document.getElementById('apikey-change').addEventListener('click', function() {
+  userApiKey = '';
+  document.getElementById('apikey-ok').style.display = 'none';
+  document.getElementById('apikey-bar').style.display = 'flex';
+  document.getElementById('apikey-input').value = '';
+  setTimeout(function(){ document.getElementById('apikey-input').focus(); }, 50);
+});
 
 // ── CONTEXT PILLS ─────────────────────────────────────────────────────────────
 document.querySelectorAll('.cpill').forEach(function(pill) {
@@ -1515,6 +1566,14 @@ function hideTyping() {
 
 // ── API CALL ──────────────────────────────────────────────────────────────────
 async function callAPI(userMsg) {
+  if (!userApiKey) {
+    hideTyping();
+    addMessage('ai', 'Primero ingresa tu API Key de Anthropic en el campo de arriba y presiona OK.');
+    document.getElementById('apikey-bar').style.display = 'flex';
+    document.getElementById('apikey-ok').style.display = 'none';
+    setTimeout(function(){ document.getElementById('apikey-input').focus(); }, 100);
+    return;
+  }
   var ctxExtra = CTX_EXTRA[currentCtx] || '';
   var sysPrompt = SYSTEM_PROMPT + (ctxExtra ? '\n\nFOCO ACTUAL: ' + ctxExtra : '');
 
@@ -1526,7 +1585,12 @@ async function callAPI(userMsg) {
   try {
     var response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': userApiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
