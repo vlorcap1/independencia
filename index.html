@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap 60 Días — Independencia v4</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090f;--s1:#0e1120;--s2:#131928;--card:#161e30;--border:#1c2a3e;
+  --accent:#00e5b4;--blue:#4f8ef7;--warn:#f5a623;--danger:#f05454;
+  --text:#dde3f0;--muted:#506070;--green:#27c98a;--purple:#9b7ef8;--orange:#ff8c42;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Lato',sans-serif;min-height:100vh;font-size:14px;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--s1);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+header{padding:18px 28px 14px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#08090f 0%,#0d1525 100%);display:flex;align-items:flex-start;justify-content:space-between;position:sticky;top:0;z-index:100;}
+header h1{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:900;color:#fff;letter-spacing:-.3px;}
+header p{color:var(--muted);font-size:.72rem;margin-top:2px;font-family:'DM Mono',monospace;}
+.htags{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap;}
+.htag{font-family:'DM Mono',monospace;font-size:.58rem;font-weight:500;padding:3px 8px;border-radius:3px;}
+.ht1{background:var(--accent);color:#000;}
+.ht2{background:rgba(79,142,247,.2);color:var(--blue);border:1px solid rgba(79,142,247,.35);}
+.ht3{background:rgba(245,166,35,.15);color:var(--warn);border:1px solid rgba(245,166,35,.3);}
+.hdr-right{text-align:right;flex-shrink:0;}
+.hdr-right .sub{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--muted);}
+.hdr-right .val{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--accent);}
+
+.sources{display:flex;gap:7px;padding:8px 28px;background:rgba(255,255,255,.012);border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.src{display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--border);border-radius:5px;padding:5px 10px;font-size:.68rem;}
+.sdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.sname{font-weight:700;}
+.ssub{color:var(--muted);font-family:'DM Mono',monospace;font-size:.57rem;}
+
+.topnav{display:flex;background:var(--s1);border-bottom:1px solid var(--border);padding:0 28px;overflow-x:auto;}
+.tnav{padding:11px 18px;font-size:.72rem;cursor:pointer;font-family:'DM Mono',monospace;color:var(--muted);border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;margin-bottom:-1px;}
+.tnav:hover{color:var(--text);}
+.tnav.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+.layout{display:grid;grid-template-columns:210px 1fr;min-height:calc(100vh - 145px);}
+
+.sidebar{background:var(--s1);border-right:1px solid var(--border);padding:16px 11px;overflow-y:auto;}
+.slbl{font-family:'DM Mono',monospace;font-size:.57rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;padding:0 3px;}
+.smb{margin-bottom:16px;}
+.actor{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:8px 10px;margin-bottom:5px;}
+.actor .ar{font-size:.57rem;font-family:'DM Mono',monospace;margin-bottom:2px;}
+.actor .an{font-size:.75rem;font-weight:700;}
+.actor .as{font-size:.62rem;color:var(--muted);margin-top:3px;line-height:1.4;}
+.riskbox{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:11px;}
+.rv{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:900;transition:color .3s;}
+.rbar{height:4px;background:var(--border);border-radius:2px;margin-bottom:10px;overflow:hidden;}
+.rf{height:100%;border-radius:2px;transition:width .5s,background .3s;}
+.trow{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;font-size:.66rem;line-height:1.35;gap:6px;}
+.sw{width:27px;height:15px;background:var(--border);border-radius:8px;position:relative;cursor:pointer;flex-shrink:0;transition:background .2s;}
+.sw::after{content:'';position:absolute;width:9px;height:9px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .2s;}
+.sw.on{background:var(--accent);}
+.sw.on::after{transform:translateX(12px);}
+.matg{display:grid;gap:5px;}
+.mi{display:flex;align-items:center;gap:7px;}
+.ml{font-size:.63rem;width:105px;flex-shrink:0;}
+.mt{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.mf{height:100%;border-radius:2px;}
+.mv{font-family:'DM Mono',monospace;font-size:.59rem;color:var(--muted);width:22px;text-align:right;}
+.progs{display:grid;gap:6px;}
+.pi{display:flex;align-items:center;gap:7px;}
+.pl{font-size:.66rem;width:115px;flex-shrink:0;}
+.pt{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.pf{height:100%;border-radius:2px;transition:width .5s;}
+.pv{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted);width:26px;text-align:right;}
+
+.main{padding:18px 22px;overflow-x:hidden;}
+.page{display:none;}
+.page.active{display:block;}
+
+.krow{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:16px;}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 12px;}
+.kl{font-family:'DM Mono',monospace;font-size:.56rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;}
+.kv{font-family:'Syne',sans-serif;font-size:1.45rem;font-weight:800;}
+.ks{font-size:.61rem;color:var(--muted);margin-top:2px;}
+.sec{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:800;margin-bottom:10px;color:#fff;display:flex;align-items:center;gap:8px;}
+.sec span{font-family:'DM Mono',monospace;font-size:.56rem;color:var(--muted);font-weight:400;}
+
+.gantt{background:var(--card);border:1px solid var(--border);border-radius:9px;overflow:hidden;margin-bottom:16px;}
+.gh{display:grid;grid-template-columns:175px 1fr;border-bottom:1px solid var(--border);}
+.ghl{padding:7px 11px;font-family:'DM Mono',monospace;font-size:.55rem;color:var(--muted);text-transform:uppercase;}
+.gwks{display:grid;grid-template-columns:repeat(8,1fr);}
+.gw{padding:7px 0;text-align:center;font-family:'DM Mono',monospace;font-size:.55rem;color:var(--muted);border-left:1px solid var(--border);}
+.gw.p1{color:var(--accent);}
+.gw.p2{color:var(--blue);}
+.grow{display:grid;grid-template-columns:175px 1fr;border-top:1px solid var(--border);min-height:34px;align-items:center;}
+.grow:hover{background:rgba(255,255,255,.012);}
+.glbl{padding:4px 11px;}
+.gt{font-size:.67rem;font-weight:700;}
+.go{font-size:.55rem;color:var(--muted);font-family:'DM Mono',monospace;margin-top:1px;}
+.gcells{display:grid;grid-template-columns:repeat(8,1fr);height:100%;align-items:center;}
+.gc{height:34px;border-left:1px solid var(--border);display:flex;align-items:center;padding:0 2px;}
+.gbar{height:14px;border-radius:2px;width:100%;font-family:'DM Mono',monospace;font-size:.44rem;display:flex;align-items:center;padding:0 3px;}
+.ba{background:rgba(0,229,180,.16);border:1px solid var(--accent);color:var(--accent);}
+.bb{background:rgba(79,142,247,.16);border:1px solid var(--blue);color:var(--blue);}
+.bw{background:rgba(245,166,35,.13);border:1px solid var(--warn);color:var(--warn);}
+.bg{background:rgba(39,201,138,.13);border:1px solid var(--green);color:var(--green);}
+.bp{background:rgba(155,126,248,.13);border:1px solid var(--purple);color:var(--purple);}
+.bdim{opacity:.1;}
+.pdiv{border-top:1px solid var(--border);padding:4px 11px;font-family:'DM Mono',monospace;font-size:.56rem;}
+.pdiv.p1c{background:rgba(0,229,180,.025);color:var(--accent);}
+.pdiv.p2c{background:rgba(79,142,247,.025);color:var(--blue);}
+
+.ptabs{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;}
+.ptab{padding:8px 15px;font-size:.7rem;cursor:pointer;font-family:'DM Mono',monospace;color:var(--muted);border-bottom:2px solid transparent;transition:all .2s;margin-bottom:-1px;white-space:nowrap;}
+.ptab:hover{color:var(--text);}
+.ptab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.ppanel{background:var(--card);border:1px solid var(--border);border-radius:0 10px 10px 10px;overflow:hidden;margin-bottom:18px;}
+.pc{display:none;}
+.pc.active{display:block;}
+.phead{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.phead h3{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:800;}
+.pdate{font-family:'DM Mono',monospace;font-size:.57rem;color:var(--muted);}
+
+.titem{padding:9px 13px;display:flex;align-items:flex-start;gap:8px;border-bottom:1px solid var(--border);transition:background .15s;}
+.titem:last-child{border-bottom:none;}
+.titem:hover{background:rgba(255,255,255,.01);}
+.tnum{font-family:'DM Mono',monospace;font-size:.57rem;color:var(--muted);width:18px;flex-shrink:0;padding-top:2px;}
+.tb{flex:1;}
+.tt{font-size:.75rem;font-weight:700;line-height:1.4;}
+.tm{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap;}
+.tag{font-family:'DM Mono',monospace;font-size:.54rem;padding:2px 5px;border-radius:2px;}
+.tgi{background:rgba(79,142,247,.13);color:var(--blue);border:1px solid rgba(79,142,247,.25);}
+.tga{background:rgba(0,229,180,.09);color:var(--accent);border:1px solid rgba(0,229,180,.18);}
+.tku{background:rgba(245,166,35,.11);color:var(--warn);border:1px solid rgba(245,166,35,.22);}
+.tdir{background:rgba(240,84,84,.11);color:var(--danger);border:1px solid rgba(240,84,84,.22);}
+.tout{background:rgba(100,116,139,.11);color:#8a9db5;border:1px solid rgba(100,116,139,.18);}
+.tcrit{background:rgba(240,84,84,.14);color:var(--danger);border:1px solid rgba(240,84,84,.27);font-weight:700;}
+.tpre{background:rgba(240,84,84,.07);color:#e07070;border:1px solid rgba(240,84,84,.2);}
+.tsrca{background:rgba(0,229,180,.07);color:var(--accent);border:1px solid rgba(0,229,180,.17);}
+.tsrcb{background:rgba(155,126,248,.09);color:var(--purple);border:1px solid rgba(155,126,248,.22);}
+.tdep{font-size:.59rem;color:var(--warn);margin-top:3px;font-family:'DM Mono',monospace;}
+.tck{width:16px;height:16px;border:1.5px solid var(--border);border-radius:3px;flex-shrink:0;margin-top:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.tck.done{background:var(--accent);border-color:var(--accent);}
+.tck.done::after{content:'✓';color:#000;font-size:8px;font-weight:700;}
+.tck.blocked{opacity:.28;cursor:not-allowed;border-style:dashed;}
+
+.gate{padding:26px 20px;text-align:center;}
+.gate-ico{font-size:2rem;margin-bottom:9px;}
+.gate h3{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:800;margin-bottom:6px;}
+.gate p{font-size:.72rem;color:var(--muted);margin-bottom:13px;line-height:1.6;}
+.preqs{background:var(--s1);border-radius:6px;padding:10px 13px;margin-bottom:13px;text-align:left;}
+.preq{font-size:.7rem;padding:3px 0;display:flex;align-items:center;gap:6px;}
+.pok{color:var(--green);}
+.pno{color:var(--danger);}
+.ubtn{background:var(--accent);color:#000;border:none;padding:8px 18px;border-radius:5px;font-family:'DM Mono',monospace;font-size:.7rem;font-weight:700;cursor:pointer;transition:opacity .2s;}
+.ubtn:hover{opacity:.85;}
+.ubtn.off{background:var(--border);color:var(--muted);cursor:not-allowed;}
+
+.sim-wrap{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:18px;}
+.decs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.dec{background:var(--s1);border:1px solid var(--border);border-radius:7px;padding:11px;cursor:pointer;transition:all .2s;position:relative;}
+.dec:hover{border-color:var(--blue);}
+.dec.sel{border-color:var(--accent);background:rgba(0,229,180,.035);}
+.dec.recommended::after{content:'RECOMENDADA';position:absolute;top:-7px;right:8px;font-family:'DM Mono',monospace;font-size:.5rem;background:var(--accent);color:#000;padding:2px 5px;border-radius:2px;font-weight:700;}
+.dec.warn-tag::after{content:'RIESGO';position:absolute;top:-7px;right:8px;font-family:'DM Mono',monospace;font-size:.5rem;background:var(--warn);color:#000;padding:2px 5px;border-radius:2px;font-weight:700;}
+.dico{font-size:1.2rem;margin-bottom:5px;}
+.dtit{font-size:.75rem;font-weight:700;margin-bottom:3px;}
+.ddesc{font-size:.65rem;color:var(--muted);line-height:1.5;}
+.dimp{margin-top:6px;font-family:'DM Mono',monospace;font-size:.58rem;line-height:1.8;}
+.g{color:var(--green);}.w{color:var(--warn);}.r{color:var(--danger);}
+
+.sliders-wrap{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:12px;}
+.sliders-title{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;}
+.slider-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.slider-lbl{font-size:.7rem;width:190px;flex-shrink:0;}
+.slider-lbl span{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--muted);}
+input[type=range]{flex:1;height:4px;-webkit-appearance:none;appearance:none;background:var(--border);border-radius:2px;outline:none;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;}
+.slider-val{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--accent);width:32px;text-align:right;flex-shrink:0;}
+
+.simout{background:var(--s1);border:1px solid var(--border);border-radius:7px;padding:13px;display:none;}
+.simout.show{display:block;}
+.simt{font-family:'DM Mono',monospace;font-size:.57rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:9px;}
+.simr{display:flex;align-items:center;gap:9px;margin-bottom:6px;}
+.simr .sm{font-size:.7rem;width:170px;flex-shrink:0;}
+.simr .st{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.simr .sf{height:100%;border-radius:3px;transition:width .4s ease;}
+.simr .sv{font-family:'DM Mono',monospace;font-size:.67rem;width:36px;text-align:right;}
+.simrec{margin-top:10px;font-size:.73rem;line-height:1.65;padding:9px 12px;background:rgba(0,229,180,.04);border-left:3px solid var(--accent);border-radius:0 5px 5px 0;}
+.alert-sim{background:rgba(245,166,35,.07);border:1px solid rgba(245,166,35,.28);border-radius:6px;padding:8px 12px;font-size:.7rem;color:var(--warn);margin-top:9px;display:none;}
+.alert-sim.show{display:block;}
+
+.ctx-hero{background:linear-gradient(135deg,rgba(0,229,180,.05) 0%,rgba(79,142,247,.05) 100%);border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin-bottom:18px;}
+.ctx-hero h2{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:900;margin-bottom:6px;}
+.ctx-hero p{font-size:.76rem;color:var(--muted);line-height:1.7;max-width:720px;}
+.ctx-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;}
+.ctx-card{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:14px 16px;}
+.ctx-card h4{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:800;margin-bottom:10px;}
+.ctx-card ul{list-style:none;}
+.ctx-card li{font-size:.72rem;color:var(--muted);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:flex-start;gap:7px;line-height:1.45;}
+.ctx-card li:last-child{border-bottom:none;}
+.ctx-card li::before{content:'→';color:var(--accent);flex-shrink:0;font-family:'DM Mono',monospace;font-size:.62rem;margin-top:1px;}
+.ctx-card li b{color:var(--text);}
+.warn-box{background:rgba(240,84,84,.06);border:1px solid rgba(240,84,84,.25);border-radius:8px;padding:14px 16px;margin-bottom:18px;}
+.warn-box h4{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:800;color:var(--danger);margin-bottom:8px;}
+.warn-box p{font-size:.73rem;line-height:1.7;color:var(--text);}
+.warn-box p b{color:var(--danger);}
+.group-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
+.group-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;}
+.group-card .gc-tag{font-family:'DM Mono',monospace;font-size:.56rem;color:var(--accent);margin-bottom:5px;}
+.group-card h5{font-family:'Syne',sans-serif;font-size:.78rem;font-weight:800;margin-bottom:5px;}
+.group-card p{font-size:.68rem;color:var(--muted);line-height:1.5;}
+.group-card .gc-imp{margin-top:8px;font-size:.66rem;color:var(--text);background:rgba(255,255,255,.04);padding:6px 8px;border-radius:4px;border-left:2px solid var(--accent);}
+
+.f1exp-item{background:var(--card);border:1px solid var(--border);border-radius:9px;margin-bottom:10px;overflow:hidden;}
+.f1exp-header{padding:12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .2s;user-select:none;}
+.f1exp-header:hover{background:rgba(255,255,255,.02);}
+.f1exp-num{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted);width:22px;flex-shrink:0;}
+.f1exp-title{font-size:.78rem;font-weight:700;flex:1;}
+.f1exp-tags{display:flex;gap:4px;flex-wrap:wrap;}
+.f1exp-chevron{color:var(--muted);font-size:.7rem;transition:transform .2s;flex-shrink:0;}
+.f1exp-item.open .f1exp-chevron{transform:rotate(90deg);}
+.f1exp-body{display:none;padding:0 16px 16px;border-top:1px solid var(--border);}
+.f1exp-item.open .f1exp-body{display:block;}
+.f1exp-why{margin-top:12px;}
+.f1exp-why h5{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;}
+.f1exp-why p{font-size:.73rem;color:var(--muted);line-height:1.7;}
+.f1exp-why p b{color:var(--text);}
+.f1exp-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+.f1exp-col{background:var(--s1);border-radius:6px;padding:10px 12px;}
+.f1exp-col h6{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;}
+.f1exp-col ul{list-style:none;}
+.f1exp-col li{font-size:.7rem;color:var(--muted);padding:3px 0;display:flex;gap:6px;line-height:1.4;}
+.f1exp-col li::before{content:'·';color:var(--accent);flex-shrink:0;}
+.f1exp-col li b{color:var(--text);}
+.f1exp-indep{margin-top:10px;background:rgba(79,142,247,.06);border:1px solid rgba(79,142,247,.2);border-radius:6px;padding:10px 12px;}
+.f1exp-indep h6{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.f1exp-indep p{font-size:.7rem;color:var(--muted);line-height:1.6;}
+.f1exp-indep p b{color:var(--text);}
+
+footer{border-top:1px solid var(--border);padding:10px 28px;display:flex;justify-content:space-between;background:var(--s1);}
+footer p{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Hoja de Ruta 60 Días — Gestión del Cambio</h1>
+    <p>Constructora e Inmobiliaria Independencia · Diagnóstico integrado · Maule, Chile</p>
+    <div class="htags">
+      <span class="htag ht1">PRIORIDAD: DATOS PRIMERO</span>
+      <span class="htag ht2">NO empezar por Obras</span>
+      <span class="htag ht3">Simulador F2 con sliders</span>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <div class="sub">Dos diagnósticos · 60 días</div>
+    <div class="val">8 semanas · Maule</div>
+    <div class="sub" style="margin-top:3px">F2 se desbloquea desde F1</div>
+  </div>
+</header>
+
+<div class="sources">
+  <div class="src"><div class="sdot" style="background:var(--accent)"></div><div><span class="sname">Ai-COACH</span> <span class="ssub">— Musalem · Fischer · Serra · Brechas operativas SAP/obras/stock</span></div></div>
+  <div class="src"><div class="sdot" style="background:var(--purple)"></div><div><span class="sname">NetRed</span> <span class="ssub">— Pedro Montero I. · Madurez, gobernanza del dato, cultura, IA</span></div></div>
+  <div class="src"><div class="sdot" style="background:var(--blue)"></div><div><span class="sname">Contexto Empresa</span> <span class="ssub">— 35 años · 70.000 viviendas · Grupo Independencia · Maule</span></div></div>
+</div>
+
+<div class="topnav">
+  <div class="tnav active" data-page="roadmap">🗺 Roadmap</div>
+  <div class="tnav" data-page="f1detail">📋 Detalle Fase 1</div>
+  <div class="tnav" data-page="contexto">🏗 Contexto Empresa</div>
+  <div class="tnav" data-page="simulador">⚡ Simulador F2</div>
+</div>
+
+<div class="layout">
+<aside class="sidebar">
+  <div class="smb">
+    <div class="slbl">Actores Clave</div>
+    <div class="actor"><div class="ar" style="color:var(--blue)">LÍDER TÉCNICO</div><div class="an">Gerente Informática</div><div class="as">SAP · I-Construye · Maestra datos · Arquitectura sistemas</div></div>
+    <div class="actor"><div class="ar" style="color:var(--accent)">LÍDER NEGOCIO</div><div class="an">Gerente Administración</div><div class="as">Procesos · Adopción · Presupuesto · Gestión cambio</div></div>
+    <div class="actor"><div class="ar" style="color:var(--warn)">OPERATIVO</div><div class="an">Key Users × 4 áreas</div><div class="as">Obras · Abastecimiento · Finanzas · Comercial — 30% formal</div></div>
+    <div class="actor"><div class="ar" style="color:var(--danger)">PATROCINADOR</div><div class="an">Directorio / GG</div><div class="as">Recursos · Patrocinio explícito · Señal cultural</div></div>
+  </div>
+  <div class="smb">
+    <div class="slbl">Riesgo D60</div>
+    <div class="riskbox">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+        <span style="font-size:.62rem;color:var(--muted)">Nivel actual</span>
+        <span class="rv" id="rv">42%</span>
+      </div>
+      <div class="rbar"><div class="rf" id="rf" style="width:42%;background:var(--warn)"></div></div>
+      <div class="trow"><span>Sin patrocinio directorio</span><div class="sw" id="sw0"></div></div>
+      <div class="trow"><span>Sin Key Users formales</span><div class="sw" id="sw1"></div></div>
+      <div class="trow"><span>Sin maestra datos S1</span><div class="sw" id="sw2"></div></div>
+      <div class="trow"><span>Planillas paralelas activas</span><div class="sw" id="sw3"></div></div>
+      <div class="trow"><span>Sin gobernanza del dato</span><div class="sw" id="sw4"></div></div>
+      <div class="trow"><span>Silos organizacionales</span><div class="sw" id="sw5"></div></div>
+    </div>
+  </div>
+  <div class="smb">
+    <div class="slbl">Madurez (NetRed)</div>
+    <div class="matg">
+      <div class="mi"><div class="ml">Alineam. estratégico</div><div class="mt"><div class="mf" style="width:35%;background:var(--warn)"></div></div><div class="mv">1.8</div></div>
+      <div class="mi"><div class="ml">Agilidad organizac.</div><div class="mt"><div class="mf" style="width:40%;background:var(--warn)"></div></div><div class="mv">2.0</div></div>
+      <div class="mi"><div class="ml">Cultura ejecución</div><div class="mt"><div class="mf" style="width:30%;background:var(--danger)"></div></div><div class="mv">1.5</div></div>
+      <div class="mi"><div class="ml">Gobernanza datos</div><div class="mt"><div class="mf" style="width:25%;background:var(--danger)"></div></div><div class="mv">1.2</div></div>
+      <div class="mi"><div class="ml">Analítica / BI</div><div class="mt"><div class="mf" style="width:20%;background:var(--danger)"></div></div><div class="mv">1.0</div></div>
+      <div class="mi"><div class="ml">Base para IA</div><div class="mt"><div class="mf" style="width:15%;background:var(--danger)"></div></div><div class="mv">0.8</div></div>
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:.56rem;color:var(--muted);margin-top:7px;">Escala 1–5 · Nivel: Escalamiento incipiente</div>
+  </div>
+  <div class="smb">
+    <div class="slbl">Avance por Área</div>
+    <div class="progs">
+      <div class="pi"><div class="pl">Gobernanza</div><div class="pt"><div class="pf" id="pg0" style="background:var(--accent)"></div></div><div class="pv" id="pv0">0%</div></div>
+      <div class="pi"><div class="pl">Estánd. datos</div><div class="pt"><div class="pf" id="pg1" style="background:var(--blue)"></div></div><div class="pv" id="pv1">0%</div></div>
+      <div class="pi"><div class="pl">Capacitación</div><div class="pt"><div class="pf" id="pg2" style="background:var(--warn)"></div></div><div class="pv" id="pv2">0%</div></div>
+      <div class="pi"><div class="pl">Sistemas</div><div class="pt"><div class="pf" id="pg3" style="background:var(--green)"></div></div><div class="pv" id="pv3">0%</div></div>
+      <div class="pi"><div class="pl">Cultura/Silos</div><div class="pt"><div class="pf" id="pg4" style="background:var(--purple)"></div></div><div class="pv" id="pv4">0%</div></div>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+
+<!-- PAGE: ROADMAP -->
+<div class="page active" id="page-roadmap">
+  <div class="krow">
+    <div class="kpi"><div class="kl">F1 Completada</div><div class="kv" id="kf1" style="color:var(--accent)">0/9</div><div class="ks">tareas marcadas</div></div>
+    <div class="kpi"><div class="kl">Prerrequisitos F2</div><div class="kv" id="kpre" style="color:var(--warn)">0/5</div><div class="ks">para desbloquear</div></div>
+    <div class="kpi"><div class="kl">Estrategia F2</div><div class="kv" id="kdec" style="color:var(--blue);font-size:.85rem;padding-top:6px">Sin elegir</div><div class="ks">en Simulador F2</div></div>
+    <div class="kpi"><div class="kl">Total avance</div><div class="kv" id="ktot" style="color:var(--green)">0</div><div class="ks" id="ktots">de 9 tareas</div></div>
+  </div>
+
+  <div class="sec">Diagrama Gantt <span>Fase 2 se actualiza desde el Simulador</span></div>
+  <div class="gantt">
+    <div class="gh">
+      <div class="ghl">Tarea / Responsable</div>
+      <div class="gwks">
+        <div class="gw p1">S1<br><span style="font-size:.46rem">D1–7</span></div>
+        <div class="gw p1">S2<br><span style="font-size:.46rem">D8–14</span></div>
+        <div class="gw p1">S3<br><span style="font-size:.46rem">D15–21</span></div>
+        <div class="gw p1">S4<br><span style="font-size:.46rem">D22–30</span></div>
+        <div class="gw p2">S5<br><span style="font-size:.46rem">D31–37</span></div>
+        <div class="gw p2">S6<br><span style="font-size:.46rem">D38–44</span></div>
+        <div class="gw p2">S7<br><span style="font-size:.46rem">D45–51</span></div>
+        <div class="gw p2">S8<br><span style="font-size:.46rem">D52–60</span></div>
+      </div>
+    </div>
+    <div class="pdiv p1c">▸ FASE 1 — FUNDAMENTOS (Días 1–30)</div>
+    <div class="grow"><div class="glbl"><div class="gt">Kickoff Comité Digital</div><div class="go">GI + GA + DIR</div></div><div class="gcells"><div class="gc"><div class="gbar ba">KO</div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div></div>
+    <div class="grow"><div class="glbl"><div class="gt">Key Users × 4 áreas</div><div class="go">GA</div></div><div class="gcells"><div class="gc"><div class="gbar ba">INI</div></div><div class="gc"><div class="gbar ba">FIN</div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div></div>
+    <div class="grow"><div class="glbl"><div class="gt">Inventario fuentes datos</div><div class="go">GI + KU</div></div><div class="gcells"><div class="gc"><div class="gbar bb">INI</div></div><div class="gc"><div class="gbar bb">EJE</div></div><div class="gc"><div class="gbar bb">FIN</div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div></div>
+    <div class="grow"><div class="glbl"><div class="gt">Sistemas fuente únicos</div><div class="go">GI + GA</div></div><div class="gcells"><div class="gc"></div><div class="gc"><div class="gbar bb">INI</div></div><div class="gc"><div class="gbar bb">EJE</div></div><div class="gc"><div class="gbar bb">FIN</div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div></div>
+    <div class="grow"><div class="glbl"><div class="gt">Maestra de datos v1</div><div class="go">GI</div></div><div class="gcells"><div class="gc"></div><div class="gc"></div><div class="gc"><div class="gbar ba">INI</div></div><div class="gc"><div class="gbar ba">FIN</div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div></div>
+    <div class="grow"><div class="glbl"><div class="gt">Gobernanza del dato</div><div class="go">GI + GA</div></div><div class="gcells"><div class="gc"></div><div class="gc"></div><div class="gc"><div class="gbar bp">INI</div></div><div class="gc"><div class="gbar bp">FIN</div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div></div>
+    <div class="grow"><div class="glbl"><div class="gt">Mapa silos interáreas</div><div class="go">GA + KU</div></div><div class="gcells"><div class="gc"></div><div class="gc"><div class="gbar bp">INI</div></div><div class="gc"><div class="gbar bp">EJE</div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div></div>
+    <div class="grow"><div class="glbl"><div class="gt">Capacitación digital × 3</div><div class="go">GA + KU</div></div><div class="gcells"><div class="gc"></div><div class="gc"><div class="gbar bg">INI</div></div><div class="gc"><div class="gbar bg">EJE</div></div><div class="gc"><div class="gbar bg">FIN</div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div></div>
+    <div class="grow"><div class="glbl"><div class="gt">Cierre F1 + Informe GG</div><div class="go">GI + GA</div></div><div class="gcells"><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"><div class="gbar ba">FIN</div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div></div>
+    <div class="pdiv p2c" id="gp2lbl">▸ FASE 2 — Usa el Simulador F2 para generar tareas personalizadas</div>
+    <div id="gp2rows"></div>
+  </div>
+
+  <div class="ptabs">
+    <div class="ptab active" id="tab-f1" data-phase="f1">Fase 1 — Fundamentos</div>
+    <div class="ptab" id="tab-f2" data-phase="f2">Fase 2 🔒</div>
+  </div>
+  <div class="ppanel">
+    <div class="pc active" id="panel-f1">
+      <div class="phead"><h3 style="color:var(--accent)">● Fase 1 — Fundamentos</h3><span class="pdate">Días 1–30 · marca tareas · 5 prerrequisitos desbloquean F2</span></div>
+      <div id="tf1"></div>
+    </div>
+    <div class="pc" id="panel-f2">
+      <div class="phead"><h3 style="color:var(--blue)">● Fase 2 — <span id="f2sub">Estrategia pendiente</span></h3><span class="pdate">Días 31–60 · generada desde Simulador F2</span></div>
+      <div id="tf2"></div>
+      <div class="gate" id="gate">
+        <div class="gate-ico">🔒</div>
+        <h3>Fase 2 bloqueada</h3>
+        <p>Completa los 5 prerrequisitos y elige una estrategia en el <strong>Simulador F2</strong> para desbloquear.</p>
+        <div class="preqs" id="prelist"></div>
+        <button class="ubtn off" id="ubtn">Completa prerrequisitos y elige estrategia</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: DETALLE F1 -->
+<div class="page" id="page-f1detail">
+  <div class="sec">Detalle explicado — Fase 1 <span>por qué cada tarea existe · qué produce · riesgo si se omite</span></div>
+  <div id="f1exp-container"></div>
+</div>
+
+<!-- PAGE: CONTEXTO -->
+<div class="page" id="page-contexto">
+  <div class="ctx-hero">
+    <h2>Constructora e Inmobiliaria Independencia — Contexto Relevante</h2>
+    <p>Empresa 100% regional con sede en Talca, capital del Maule. <b>35 años de historia</b>, más de <b>70.000 viviendas construidas</b>. 1 de cada 6 familias maulinas vive en un hogar del grupo. Líder absoluta del sector construcción habitacional en la región. Opera con múltiples razones sociales bajo el mismo grupo, incluyendo <b>Constructora La Rioja</b> para proyectos sociales DS49. Lanzó <b>Hacienda La Esmeralda</b>, el proyecto privado más grande de Talca (52+ hectáreas).</p>
+  </div>
+  <div class="warn-box">
+    <h4>⚠ Por qué NO empezar por Obras</h4>
+    <p>Ambos diagnósticos coinciden: el problema de programación de obras <b>es síntoma, no causa</b>. Arrancar con el dashboard de obras sin antes tener una maestra de datos limpia sería construir sobre arena — los datos que ingresarían al sistema seguirían siendo <b>inconsistentes, duplicados y sin estándar de nomenclatura</b>. El diagnóstico Ai-COACH detectó versiones paralelas de información entre áreas; el diagnóstico NetRed confirmó que el ciclo del dato está invertido (más tiempo produciendo que usando). Un dashboard de obras en ese contexto generaría <b>una capa más de caos con interfaz bonita</b>. La secuencia correcta: <b>primero limpiar el dato → luego construir sobre él</b>. Obras puede ser el primer caso de uso de F2, pero nunca el punto de partida de F1.</p>
+  </div>
+  <div class="sec">Grupo de Empresas Relevantes</div>
+  <div class="group-cards">
+    <div class="group-card">
+      <div class="gc-tag">EMPRESA PRINCIPAL</div>
+      <h5>Constructora e Inmobiliaria Independencia S.A.</h5>
+      <p>Razón social principal. Sede Talca. Proyectos con y sin subsidio: viviendas, oficinas, locales. Hacienda La Esmeralda (masterplan 52+ há).</p>
+      <div class="gc-imp">Múltiples proyectos simultáneos — sin repositorio único genera versiones paralelas de presupuestos y avances.</div>
+    </div>
+    <div class="group-card">
+      <div class="gc-tag">SUBSIDIARIA SOCIAL</div>
+      <h5>Constructora La Rioja</h5>
+      <p>Del grupo Independencia. Especializada en Plan Emergencia Habitacional DS49/DS19. +3.000 hogares en construcción. Entregas en Cauquenes, Linares, Pencahue.</p>
+      <div class="gc-imp">Proyectos DS49 requieren reportería específica para SERVIU — actualmente manual, propenso a errores contractuales.</div>
+    </div>
+    <div class="group-card">
+      <div class="gc-tag">PROYECTO ESTRATÉGICO</div>
+      <h5>Hacienda La Esmeralda</h5>
+      <p>52+ hectáreas sector oriente Talca. Vivienda + salud + educación + comercio. Masterplan 10 años. Proyecto urbano integral más grande de la ciudad.</p>
+      <div class="gc-imp">Presentaciones a bancos requieren datos robustos y trazables. Sin gobernanza del dato el riesgo financiero es alto.</div>
+    </div>
+  </div>
+  <div class="ctx-grid">
+    <div class="ctx-card">
+      <h4>🏗 Operación actual (Ai-COACH)</h4>
+      <ul>
+        <li><b>Programación de obras</b> 100% manual en Google Sheets, sin sistema específico</li>
+        <li><b>SAP Business One</b> subutilizado — solo contabilidad, costos/stock desactivados</li>
+        <li><b>I-Construye y ECore</b> fragmentados, no integrados a flujos diarios</li>
+        <li><b>Drive como sistema informal</b> — sin control documental ni versiones</li>
+        <li><b>OC sin seguimiento</b> — proveedores no cumplen Fill Rate, OC caducan</li>
+        <li><b>Reportería directorio/bancos</b> requiere múltiples revisiones manuales</li>
+      </ul>
+    </div>
+    <div class="ctx-card">
+      <h4>📊 Madurez organizacional (NetRed)</h4>
+      <ul>
+        <li><b>Estrategia reactiva</b> — decisiones impulsivas no basadas en datos</li>
+        <li><b>Silos operativos</b> — Obras, Abastecimiento, Finanzas no se hablan en tiempo real</li>
+        <li><b>Cultura "la obra es lo primero"</b> — empresa familiar en institucionalización</li>
+        <li><b>Ciclo del dato invertido</b> — más horas produciendo reportes que usando datos</li>
+        <li><b>TI sin rol estratégico</b> — percibido como soporte técnico, no habilitador</li>
+        <li><b>Sin base para IA</b> — datos desintegrados hacen inviable cualquier modelo predictivo</li>
+      </ul>
+    </div>
+    <div class="ctx-card">
+      <h4>⚡ Por qué esto importa ahora</h4>
+      <ul>
+        <li>Grupo maneja <b>+5.000 viviendas simultáneas</b> entre Independencia y La Rioja</li>
+        <li>Hacienda La Esmeralda requiere <b>presentaciones bancarias robustas</b></li>
+        <li>DS49/SERVIU exige <b>reportería estandarizada</b> — errores tienen costo contractual</li>
+        <li>Escalar sin datos limpios genera <b>sobrecostos ocultos y tensión interna</b></li>
+        <li>Competidores nacionales ya usan <b>dashboards integrados</b> de programación</li>
+        <li>Sin gobernanza del dato, incorporar IA es <b>imposible en cualquier horizonte razonable</b></li>
+      </ul>
+    </div>
+    <div class="ctx-card">
+      <h4>🎯 Secuencia recomendada F1→F2</h4>
+      <ul>
+        <li><b>Sem. 1–2:</b> Comité, Key Users, inventario de datos</li>
+        <li><b>Sem. 2–3:</b> Sistema fuente único por proceso</li>
+        <li><b>Sem. 3–4:</b> Maestra de datos v1 + gobernanza</li>
+        <li><b>F2 recomendada:</b> Datos primero → luego Obras sobre base limpia</li>
+        <li><b>Palanca clave:</b> GI técnico + GA adopción — juntos, no en silos</li>
+        <li><b>La Rioja/DS49:</b> Incluir en maestra desde F1, no como proyecto separado</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: SIMULADOR -->
+<div class="page" id="page-simulador">
+  <div class="sec">Simulador Fase 2 <span>elige estrategia · ajusta sliders · genera tareas · aplica al Roadmap</span></div>
+  <div style="background:rgba(240,84,84,.06);border:1px solid rgba(240,84,84,.22);border-radius:8px;padding:12px 15px;margin-bottom:16px;font-size:.72rem;line-height:1.7;">
+    <b style="color:var(--danger)">⚠ Por qué Obras no es la primera prioridad:</b> Sin una maestra de datos limpia, el dashboard de obras ingesta datos inconsistentes y perpetúa el problema. La recomendación: <b style="color:var(--text)">Datos primero → luego Obras</b>. La estrategia "Datos → Obras" está marcada como recomendada.
+  </div>
+  <div class="sim-wrap">
+    <div class="sec" style="margin-bottom:10px">1. Elige estrategia base</div>
+    <div class="decs">
+      <div class="dec" id="dec-datos" data-dec="datos">
+        <div class="dico">📋</div><div class="dtit">Datos Primero</div>
+        <div class="ddesc">Maestra v2, repositorio centralizado, eliminar planillas. Base para todo lo demás.</div>
+        <div class="dimp"><span class="g">✓ Resuelve la raíz del problema</span><br><span class="g">✓ Habilita IA en D90–120</span><br><span class="w">⚠ Resultados visibles en D45+</span></div>
+      </div>
+      <div class="dec recommended" id="dec-datos_obras" data-dec="datos_obras">
+        <div class="dico">📋🏗</div><div class="dtit">Datos → luego Obras</div>
+        <div class="ddesc">Semanas 5–6: maestra v2. Semanas 7–8: dashboard obras sobre datos limpios.</div>
+        <div class="dimp"><span class="g">✓ La secuencia correcta</span><br><span class="g">✓ Dashboard con datos confiables</span><br><span class="w">⚠ Requiere GI dedicado full</span></div>
+      </div>
+      <div class="dec" id="dec-sap" data-dec="sap">
+        <div class="dico">⚙️</div><div class="dtit">Activar SAP</div>
+        <div class="ddesc">Módulos costos y stock activos. Infraestructura ya pagada. Elimina doble digitación.</div>
+        <div class="dimp"><span class="g">✓ Infraestructura existente</span><br><span class="g">✓ Impacto financiero directo</span><br><span class="w">⚠ GI disponible full-time</span></div>
+      </div>
+      <div class="dec" id="dec-piloto" data-dec="piloto">
+        <div class="dico">🎯</div><div class="dtit">Piloto La Rioja DS49</div>
+        <div class="ddesc">Ciclo completo en proyectos DS49/SERVIU. Área con impacto contractual directo.</div>
+        <div class="dimp"><span class="g">✓ Reducción riesgo SERVIU</span><br><span class="g">✓ Área con urgencia real</span><br><span class="r">✗ Solo DS49 en D60</span></div>
+      </div>
+      <div class="dec" id="dec-cultura" data-dec="cultura">
+        <div class="dico">👥</div><div class="dtit">Cultura + Silos</div>
+        <div class="ddesc">Resolver alineamiento e incentivos antes de sistemas. Aborda raíz NetRed.</div>
+        <div class="dimp"><span class="g">✓ Ataca causa raíz NetRed</span><br><span class="w">⚠ Técnico se retrasa</span><br><span class="w">⚠ Resultados difusos en D60</span></div>
+      </div>
+      <div class="dec warn-tag" id="dec-obras" data-dec="obras">
+        <div class="dico">🏗️</div><div class="dtit">Obras Primero</div>
+        <div class="ddesc">Dashboard de obras desde D31. Sin esperar datos limpios.</div>
+        <div class="dimp"><span class="w">⚠ Datos ingresados inconsistentes</span><br><span class="w">⚠ Riesgo de retrabajo alto</span><br><span class="r">✗ No recomendado como inicio</span></div>
+      </div>
+    </div>
+
+    <div class="sliders-wrap" id="sliders-wrap" style="display:none">
+      <div class="sliders-title">2. Ajusta condiciones reales del equipo</div>
+      <div class="slider-row">
+        <div class="slider-lbl">Disponibilidad GI <span>(horas/semana)</span></div>
+        <input type="range" min="5" max="40" value="20" id="sl-gi">
+        <div class="slider-val" id="sv-gi">20h</div>
+      </div>
+      <div class="slider-row">
+        <div class="slider-lbl">Disponibilidad Key Users <span>(% jornada)</span></div>
+        <input type="range" min="5" max="50" value="20" id="sl-ku">
+        <div class="slider-val" id="sv-ku">20%</div>
+      </div>
+      <div class="slider-row">
+        <div class="slider-lbl">Calidad datos actual <span>(% estimado confiable)</span></div>
+        <input type="range" min="5" max="80" value="30" id="sl-dat">
+        <div class="slider-val" id="sv-dat">30%</div>
+      </div>
+      <div class="slider-row">
+        <div class="slider-lbl">Compromiso directorio <span>(1 bajo — 5 alto)</span></div>
+        <input type="range" min="1" max="5" value="3" id="sl-dir">
+        <div class="slider-val" id="sv-dir">3/5</div>
+      </div>
+      <div class="slider-row">
+        <div class="slider-lbl">Resistencia al cambio <span>(1 baja — 5 alta)</span></div>
+        <input type="range" min="1" max="5" value="3" id="sl-res">
+        <div class="slider-val" id="sv-res">3/5</div>
+      </div>
+    </div>
+
+    <div class="simout" id="simout">
+      <div class="simt">PROYECCIÓN AL DÍA 60 — AJUSTADA POR SLIDERS</div>
+      <div class="simr"><div class="sm">Calidad de datos resultante</div><div class="st"><div class="sf" id="si0" style="background:var(--accent);width:0"></div></div><div class="sv" id="ss0">—</div></div>
+      <div class="simr"><div class="sm">Adopción del equipo</div><div class="st"><div class="sf" id="si1" style="background:var(--blue);width:0"></div></div><div class="sv" id="ss1">—</div></div>
+      <div class="simr"><div class="sm">Entregables concretos D60</div><div class="st"><div class="sf" id="si2" style="background:var(--warn);width:0"></div></div><div class="sv" id="ss2">—</div></div>
+      <div class="simr"><div class="sm">Riesgo de retroceso</div><div class="st"><div class="sf" id="si3" style="background:var(--danger);width:0"></div></div><div class="sv" id="ss3">—</div></div>
+      <div class="simr"><div class="sm">Ganancia madurez organizacional</div><div class="st"><div class="sf" id="si4" style="background:var(--purple);width:0"></div></div><div class="sv" id="ss4">—</div></div>
+      <div class="simrec" id="simrec"></div>
+      <div style="margin-top:12px;display:flex;align-items:center;gap:12px;">
+        <button id="apply-btn" style="background:var(--accent);color:#000;border:none;padding:8px 18px;border-radius:5px;font-family:'DM Mono',monospace;font-size:.68rem;font-weight:700;cursor:pointer;">✓ Aplicar esta estrategia al Roadmap →</button>
+        <span id="applied-msg" style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--green);display:none">✓ Aplicado al Roadmap</span>
+      </div>
+    </div>
+    <div class="alert-sim" id="alertsim">⚠ Con los niveles actuales de disponibilidad, esta estrategia tiene riesgo alto de no completarse en 60 días. Considera reducir el alcance o asegurar más tiempo del GI.</div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<footer>
+  <p>Constructora e Inmobiliaria Independencia · Roadmap 60 días · Gestión del Cambio v4</p>
+  <p>Ai-COACH (Musalem · Fischer · Serra) + NetRed (Pedro Montero I.) · Maule, Chile</p>
+</footer>
+
+<script>
+// ─── DATA ─────────────────────────────────────────────────────────────────────
+var F1 = [
+  { id:'t1', n:'01', title:'Kickoff del Comité Digital — reunión formal con acta y compromisos firmados',
+    owners:['GI','GA','DIR'], crit:true, area:'gov', prereq:true, src:'ambos',
+    output:'Acta compromisos',
+    why:'Sin una reunión formal con acta, los compromisos quedan en intenciones verbales. En Independencia, donde la cultura es "la obra es lo primero" (NetRed), si el directorio no firma compromisos explícitos, los gerentes vuelven al día a día operativo en semana 2. <b>El Kickoff no es bienvenida — es contrato interno.</b>',
+    hace:['Formalizar el Comité Digital como instancia permanente, no un proyecto puntual','Definir frecuencia de reuniones (mínimo quincenal)','Asignar presupuesto tentativo para F1 y F2','Comunicar al resto de la organización que existe un proceso de cambio formal'],
+    riesgo:['Sin acta firmada, el proceso pierde legitimidad ante mandos medios','Sin patrocinio explícito de directorio, los Key Users no tendrán autoridad para cambiar procesos','NetRed detectó que la falta de alineamiento estratégico es la primera causa de fracaso en transformaciones similares'],
+    indep:'Independencia tiene 35 años y opera como empresa familiar en proceso de institucionalización. Los cambios requieren una señal muy clara desde arriba. La presencia del directorio en este kickoff no es protocolo — es la señal que el resto de la organización necesita ver.'
+  },
+  { id:'t2', n:'02', title:'Designar Key Users en 4 áreas con dedicación formal mínima 30% jornada',
+    owners:['GA'], crit:true, area:'gov', prereq:true, src:'Ai-COACH',
+    output:'Lista oficial con % dedicación',
+    why:'Ai-COACH detectó alta dependencia de personas clave informales. Si no se formaliza quién es el Key User de cada área, el proceso recae siempre en los mismos — que ya están sobrecargados. <b>Sin tiempo asignado formalmente, los KU operarán el cambio fuera de horario, lo que garantiza su abandono.</b>',
+    hace:['Designar 1 KU por área (Obras, Abastecimiento, Finanzas, Comercial) con nombre y apellido','Documentar qué porcentaje de jornada dedicarán al proceso','Definir sus responsabilidades: qué validan, qué reportan, a quién escalan','Informar a sus jefaturas que tendrán esa dedicación'],
+    riesgo:['Sin KU formales, cada área opera a su ritmo y el proceso se fragmenta','Los KU sin tiempo asignado se convierten en cuello de botella','Con 174 empleados — sin KU, el GI y GA intentan hacer todo y colapsan en semana 3'],
+    indep:'Con proyectos simultáneos en DS49 (La Rioja), Hacienda La Esmeralda y proyectos comerciales, la organización tiene frentes muy distintos. Los KU son la bisagra entre el proceso de cambio y la operación real de cada frente.'
+  },
+  { id:'t3', n:'03', title:'Inventario de fuentes de datos activas — sistemas, planillas y Drive',
+    owners:['GI','KU'], crit:false, area:'data', prereq:false, src:'NetRed',
+    output:'Mapa de datos y ciclo de vida',
+    why:'NetRed diagnosticó que no se puede gestionar lo que no se conoce. Antes de decidir qué sistema es la fuente oficial, hay que saber qué existe. En Independencia coexisten SAP, I-Construye, ECore, Google Drive y decenas de planillas — <b>nadie tiene el mapa completo.</b>',
+    hace:['Listar todos los sistemas activos y sus responsables','Identificar qué planillas existen, quién las mantiene y qué proceso cubren','Documentar el ciclo de vida del dato: dónde nace, quién lo modifica, quién lo consume','Detectar duplicidades: dónde el mismo dato existe en más de un lugar con valores distintos'],
+    riesgo:['Sin inventario, al definir el sistema fuente en T4 podrías omitir fuentes críticas','Las planillas de cuadrillas o abastecimiento que no se mapeen seguirán siendo el sistema real','El ciclo del dato invertido no puede revertirse sin saber primero dónde se produce cada dato'],
+    indep:'Con Constructora La Rioja operando en paralelo, es probable que existan sistemas y planillas duplicadas entre ambas razones sociales. Este inventario debe cubrir el grupo, no solo una empresa.'
+  },
+  { id:'t4', n:'04', title:'Definir sistema fuente único por proceso crítico — SAP, I-Construye o Drive',
+    owners:['GI','GA'], crit:true, area:'data', prereq:true, src:'ambos',
+    output:'Documento validado por ambos gerentes', dep:'t3',
+    why:'Tanto Ai-COACH como NetRed coinciden: la raíz del problema no es la falta de tecnología, sino que la misma información existe en múltiples lugares con valores distintos. <b>Definir el sistema fuente es declarar cuál dato es el oficial — y cuáles planillas deben morir.</b>',
+    hace:['Para cada proceso crítico documentar cuál sistema es la fuente','Definir quién puede modificar ese dato y bajo qué circunstancias','Establecer qué pasa con las planillas que duplicaban ese dato','Validar con GI (técnico) y GA (negocio) — ambas firmas son necesarias'],
+    riesgo:['Sin sistema fuente definido, la maestra de datos v1 no tiene valor','Las presentaciones bancarias para Hacienda La Esmeralda requieren datos únicos y trazables','La desconfianza en los datos de los sistemas no se resuelve con tecnología, se resuelve con este documento'],
+    indep:'Independencia presenta proyectos a SERVIU (DS49) y a bancos privados (Hacienda La Esmeralda). Ambos exigen datos consistentes. Una discrepancia entre sistemas en una presentación bancaria puede retrasar financiamiento semanas.'
+  },
+  { id:'t5', n:'05', title:'Maestra de datos v1 — nomenclaturas, formatos, campos obligatorios, responsables',
+    owners:['GI'], crit:true, area:'data', prereq:true, src:'NetRed',
+    output:'Diccionario de datos v1 aprobado', dep:'t4',
+    why:'NetRed fue explícito: gestionar datos significa gestionar calidad del dato. Una maestra de datos es el diccionario que dice cómo se llama cada cosa, en qué formato se registra y quién es responsable de su calidad. <b>Sin esto, construir el dashboard de obras en F2 sería llenarlo con basura estandarizada.</b>',
+    hace:['Definir nomenclaturas de proyectos, proveedores, materiales y cuadrillas','Establecer formatos: fechas, montos (UF vs CLP), porcentajes de avance','Definir campos obligatorios por proceso — qué no puede quedar vacío','Asignar responsable de calidad por cada dominio de datos'],
+    riesgo:['Sin maestra de datos, cada área sigue nombrando las cosas diferente','La integración SAP + I-Construye + ECore es imposible si cada sistema usa nomenclaturas distintas','La maestra debe alinearse con los formatos SERVIU desde el inicio'],
+    indep:'Independencia tiene proyectos en 15+ comunas del Maule bajo múltiples nombres y etapas. La maestra debe mapear esa realidad: qué es un proyecto, qué es una etapa, qué es una obra — y que todo el grupo lo entienda igual.'
+  },
+  { id:'t6', n:'06', title:'Reglas de gobernanza del dato — quién produce, valida y puede modificar',
+    owners:['GI','GA'], crit:false, area:'data', prereq:false, src:'NetRed',
+    output:'Reglamento interno de datos',
+    why:'NetRed diagnosticó que Independencia no gestiona datos como activo. Un dato sin dueño se corrompe. <b>La gobernanza no es tecnología — es definir quién tiene el poder de validar y quién no puede modificar sin autorización.</b>',
+    hace:['Para cada dominio de datos definir el data owner','Establecer quién puede crear, modificar y eliminar registros en cada sistema','Documentar qué pasa cuando hay discrepancias entre sistemas','Crear proceso de excepciones: qué pasa cuando nadie sabe cuál dato es correcto'],
+    riesgo:['Sin gobernanza, la maestra de datos v1 se desactualiza en semanas','Los KU sin autoridad formal no podrán exigir a su área que use el sistema correcto','La falta de gobernanza impide cualquier proyecto de IA — los modelos no aprenden de datos sin dueño'],
+    indep:'En una empresa familiar en proceso de institucionalización, la gobernanza del dato es un paso cultural además de técnico. Define que los datos son de la empresa, no del gerente que los creó.'
+  },
+  { id:'t7', n:'07', title:'Diagnóstico de silos y mapa de flujos interáreas — detectar áreas blancas y duplicidades',
+    owners:['GA','KU'], crit:false, area:'cult', prereq:true, src:'NetRed',
+    output:'Mapa organizacional de flujos',
+    why:'NetRed identificó falta de comunicación interáreas y optimización en silos como causas de duplicidad, conflicto y áreas blancas (nadie es responsable). <b>Sin este mapa, F2 resolverá los problemas de un área sin saber que está generando un problema nuevo en otra.</b>',
+    hace:['Mapear qué información necesita cada área de las demás y cuándo','Identificar los handoffs críticos: dónde una área termina y otra empieza sin proceso claro','Detectar duplicidades de trabajo: qué hace Obras que también hace Abastecimiento','Identificar áreas blancas: qué proceso nadie hace porque nadie sabe de quién es'],
+    riesgo:['Sin mapa de silos, el dashboard de obras de F2 no incluirá lo que Abastecimiento necesita ver','Las automatizaciones de F2 pueden automatizar un proceso que está mal diseñado','La agilidad organizacional (2.0/5) no mejora con tecnología si los silos siguen intactos'],
+    indep:'Con Independencia y La Rioja operando bajo el mismo grupo pero con proyectos distintos (privados vs DS49), el mapa de silos debe incluir cómo se comparten recursos, equipos y materiales entre ambas razones sociales — hoy probablemente sin proceso formal.'
+  },
+  { id:'t8', n:'08', title:'Capacitación digital por rol — 3 sesiones prácticas SAP, I-Construye, manejo de datos',
+    owners:['GA','KU'], crit:false, area:'cap', prereq:false, src:'Ai-COACH',
+    output:'Registro de asistencia y evaluación básica',
+    why:'Ai-COACH detectó falta de capacitación como brecha transversal. Los sistemas están disponibles pero subutilizados porque nadie sabe usarlos bien. <b>No es resistencia — es desconocimiento práctico.</b>',
+    hace:['Sesión 1: SAP básico por perfil (qué puede hacer cada rol que hoy hace en planilla)','Sesión 2: I-Construye — flujos de OC, recepción de materiales, estados de avance','Sesión 3: Manejo de datos — cómo ingresar datos correctamente, qué campos son críticos'],
+    riesgo:['Sin capacitación, la maestra de datos v1 no se respeta porque nadie sabe cómo ingresarla al sistema','Los módulos SAP activados en F2 no serán usados si el equipo no sabe operarlos','Sin capacitación básica, no hay base para uso corporativo de IA'],
+    indep:'Independencia tiene 174 empleados, muchos en terreno. Las sesiones deben incluir administradores de obra y administrativos de abastecimiento. El riesgo es capacitar solo a jefaturas y que el cambio no llegue a quienes ingresan datos en el día a día.'
+  },
+  { id:'t9', n:'09', title:'Cierre Fase 1 — auditoría de avance, brechas abiertas e informe para GG y directorio',
+    owners:['GI','GA'], crit:false, area:'gov', prereq:false, src:'ambos',
+    output:'Informe D30 validado',
+    why:'Un cierre formal evita que F1 se arrastre indefinidamente. Independencia tiene cultura de urgencia operativa — sin un corte formal en D30, la organización vuelve al modo obras y F2 nunca arranca. <b>El cierre es la fecha límite que hace reales los compromisos del Kickoff.</b>',
+    hace:['Auditar qué prerrequisitos están completos y cuáles quedan pendientes','Documentar las brechas no resueltas y su impacto en F2','Preparar informe ejecutivo de 1 página para directorio','Tomar decisión formal: se inicia F2 o se extiende F1'],
+    riesgo:['Sin cierre formal, los 5 prerrequisitos pueden quedar casi listos semanas — bloqueando F2','El directorio necesita información para asignar recursos a F2','Sin rendición de cuentas, la transformación pierde momentum y vuelve al modo reactivo'],
+    indep:'Con proyectos DS49 en construcción activa y Hacienda La Esmeralda avanzando, el D30 puede coincidir con presiones operativas. El informe debe ser corto y ejecutivo — no un documento de 40 páginas que nadie leerá.'
+  }
+];
+
+var PREREQS = ['t1','t2','t4','t5','t7'];
+var PREREQ_LABELS = {t1:'Kickoff Comité Digital',t2:'Key Users designados',t4:'Sistemas fuente definidos',t5:'Maestra de datos v1',t7:'Mapa de silos interáreas'};
+
+var F2T = {
+  datos:[
+    {n:'10',title:'Maestra de datos v2 — todos los procesos, incluyendo DS49/SERVIU',owners:['GI','KU'],crit:true,src:'NetRed',output:'Diccionario completo',dep:'Maestra v1 completada'},
+    {n:'11',title:'Repositorio centralizado de datos — flujo único desde SAP e I-Construye',owners:['GI'],crit:true,src:'NetRed',output:'Repositorio activo',dep:'Maestra v2 lista'},
+    {n:'12',title:'Migrar 3 áreas desde planillas a sistema fuente (Obras, Abastecimiento, Finanzas)',owners:['GI','GA','KU'],crit:true,src:'Ai-COACH',output:'3 áreas sin planillas paralelas',dep:'Repositorio activo'},
+    {n:'13',title:'Estandarizar flujo OC → Recepción → Stock en I-Construye',owners:['GI','KU Abast.'],crit:true,src:'Ai-COACH',output:'Flujo documentado y activo',dep:'Sistemas fuente definidos'},
+    {n:'14',title:'Dashboard indicadores gerenciales conectado a sistemas',owners:['GI'],crit:false,src:'ambos',output:'Dashboard sin planillas intermedias',dep:'Datos migrados'},
+    {n:'15',title:'Auditoría cruzada de calidad de datos entre áreas',owners:['GI'],crit:false,src:'NetRed',output:'Informe de calidad D50',dep:null},
+    {n:'16',title:'Reporte SERVIU/bancos generado desde sistema (sin planillas)',owners:['GI','GA'],crit:true,src:'ambos',output:'Reporte trazable',dep:'Datos limpios'},
+    {n:'17',title:'Informe D60 directorio: calidad datos, adopción y roadmap IA',owners:['GI','GA','DIR'],crit:true,src:'ambos',output:'Presentación directorio',dep:null}
+  ],
+  datos_obras:[
+    {n:'10',title:'Maestra de datos v2 completa — semanas 5–6, enfoque obras y abastecimiento',owners:['GI','KU'],crit:true,src:'NetRed',output:'Diccionario completo',dep:'Maestra v1 completada'},
+    {n:'11',title:'Migrar datos de obras a sistema fuente (eliminar Google Sheets)',owners:['GI','KU Obras'],crit:true,src:'Ai-COACH',output:'Obras sin planillas paralelas',dep:'Maestra v2 lista'},
+    {n:'12',title:'Dashboard programación de obras — sobre datos ya limpios',owners:['GI','KU Obras'],crit:true,src:'Ai-COACH',output:'Dashboard con datos confiables',dep:'Datos obras migrados'},
+    {n:'13',title:'Metodología estandarizada de avance: hitos, alertas, responsables',owners:['GI','KU Obras'],crit:false,src:'Ai-COACH',output:'Proceso documentado',dep:'Dashboard activo'},
+    {n:'14',title:'Integración Dashboard con SAP costos en tiempo real',owners:['GI'],crit:false,src:'ambos',output:'Integración validada',dep:'SAP costos activo'},
+    {n:'15',title:'Alerta automática stock crítico por obra desde SAP',owners:['GI'],crit:false,src:'Ai-COACH',output:'Regla activa SAP',dep:null},
+    {n:'16',title:'Primer reporte gerencial obras desde sistema — sin planillas',owners:['GI','GA'],crit:true,src:'ambos',output:'Reporte desde sistema',dep:'Datos limpios'},
+    {n:'17',title:'Informe D60 directorio: datos + obras + próximos pasos',owners:['GI','GA','DIR'],crit:true,src:'ambos',output:'Presentación directorio',dep:null}
+  ],
+  sap:[
+    {n:'10',title:'Auditoría módulos SAP activos vs disponibles vs subutilizados',owners:['GI'],crit:true,src:'Ai-COACH',output:'Mapa módulos SAP',dep:'Sistemas fuente definidos'},
+    {n:'11',title:'Activar SAP: control de costos por obra en tiempo real',owners:['GI'],crit:true,src:'Ai-COACH',output:'Módulo costos activo',dep:'Auditoría lista'},
+    {n:'12',title:'Activar SAP: control de stock y seguimiento OC',owners:['GI','KU Abast.'],crit:true,src:'Ai-COACH',output:'Módulo stock activo',dep:'Auditoría lista'},
+    {n:'13',title:'Capacitación SAP por rol — Obras, Abastecimiento, Finanzas',owners:['GI','GA'],crit:true,src:'Ai-COACH',output:'Usuarios habilitados',dep:'Módulos activos'},
+    {n:'14',title:'Eliminar doble digitación: SAP como ingreso único',owners:['GI','GA'],crit:true,src:'NetRed',output:'Flujo único validado',dep:'Capacitación lista'},
+    {n:'15',title:'Alerta de desvío presupuestario por obra',owners:['GI'],crit:false,src:'Ai-COACH',output:'Alerta activa',dep:'SAP costos activo'},
+    {n:'16',title:'Primer cierre contable + operativo desde SAP sin planillas intermedias',owners:['GI','GA'],crit:false,src:'ambos',output:'Cierre limpio D55',dep:'Capacitación lista'},
+    {n:'17',title:'Informe D60 directorio: SAP central + siguientes módulos',owners:['GI','GA','DIR'],crit:true,src:'ambos',output:'Presentación directorio',dep:null}
+  ],
+  piloto:[
+    {n:'10',title:'Definir alcance piloto DS49/La Rioja: reportería SERVIU end-to-end',owners:['GI','GA'],crit:true,src:'ambos',output:'Alcance documentado',dep:'KU designados'},
+    {n:'11',title:'Migrar datos DS49 a sistema fuente — eliminar planillas SERVIU',owners:['GI','KU'],crit:true,src:'ambos',output:'Datos DS49 en sistema',dep:'Maestra datos lista'},
+    {n:'12',title:'Estandarizar flujo OC → Recepción para proyectos DS49',owners:['GI','KU Abast.'],crit:true,src:'Ai-COACH',output:'Flujo DS49 documentado',dep:'Datos migrados'},
+    {n:'13',title:'Reporte SERVIU generado desde sistema (no planilla Excel)',owners:['GI','GA'],crit:true,src:'ambos',output:'Reporte trazable D50',dep:'Datos DS49 limpios'},
+    {n:'14',title:'Medir adopción del piloto: incidencias, retrocesos, necesidades',owners:['GA','KU'],crit:true,src:'NetRed',output:'Informe adopción semanal',dep:'2 semanas activas'},
+    {n:'15',title:'Ajustar proceso piloto y documentar para replicación',owners:['GI','GA'],crit:false,src:'ambos',output:'Proceso corregido',dep:'Informe adopción'},
+    {n:'16',title:'Guía replicación: qué funciona, qué adaptar para proyectos privados',owners:['GI','GA'],crit:true,src:'ambos',output:'Guía lista',dep:null},
+    {n:'17',title:'Informe D60 directorio: resultados DS49 + plan replicación D61–90',owners:['GI','GA','DIR'],crit:true,src:'ambos',output:'Presentación directorio',dep:null}
+  ],
+  cultura:[
+    {n:'10',title:'Plan comunicación interna: qué cambia, por qué, para quién, cuándo',owners:['GA','DIR'],crit:true,src:'NetRed',output:'Plan comunicación',dep:'Mapa silos listo'},
+    {n:'11',title:'Workshops alineamiento estratégico — traducir estrategia a objetivos por área',owners:['GA','KU'],crit:true,src:'NetRed',output:'OKRs por área',dep:null},
+    {n:'12',title:'Capacitación intensiva x6 sesiones — SAP, datos, flujos interáreas',owners:['GA','KU'],crit:true,src:'ambos',output:'100% equipo capacitado',dep:null},
+    {n:'13',title:'Definir incentivos para adopción digital — propuesta al directorio',owners:['GA','DIR'],crit:false,src:'NetRed',output:'Política incentivos',dep:null},
+    {n:'14',title:'Dashboard obras en modo solo lectura (sin eliminar planillas aún)',owners:['GI','KU Obras'],crit:false,src:'Ai-COACH',output:'Dashboard visible D45',dep:null},
+    {n:'15',title:'Medir adopción D50: encuesta + entrevistas KU',owners:['GA'],crit:true,src:'NetRed',output:'Tasa adopción D50',dep:'Capacitación lista'},
+    {n:'16',title:'Migrar áreas con adopción mayor a 70% a sistema fuente',owners:['GA','GI'],crit:false,src:'ambos',output:'Migración condicional',dep:'Adopción medida'},
+    {n:'17',title:'Informe D60 directorio: mapa madurez + plan técnico D61–90',owners:['GA','GI','DIR'],crit:true,src:'ambos',output:'Presentación directorio',dep:null}
+  ],
+  obras:[
+    {n:'10',title:'[RIESGO] Dashboard programación de obras — sin datos limpios previos',owners:['GI','KU Obras'],crit:true,src:'Ai-COACH',output:'Dashboard (datos inconsistentes)',dep:null},
+    {n:'11',title:'Metodología estandarizada obras — hitos y alertas básicas',owners:['GI','KU Obras'],crit:false,src:'Ai-COACH',output:'Proceso documentado',dep:'Dashboard activo'},
+    {n:'12',title:'Capacitación dashboard para jefes de obra y cuadrillas',owners:['GA','KU Obras'],crit:false,src:'Ai-COACH',output:'Equipo capacitado',dep:null},
+    {n:'13',title:'Alerta stock crítico por obra (datos sin estandarizar)',owners:['GI'],crit:false,src:'Ai-COACH',output:'Alerta básica',dep:null},
+    {n:'14',title:'[RETRABAJO] Refactorización de datos post-dashboard',owners:['GI'],crit:true,src:'NetRed',output:'Corrección de datos',dep:'Dashboard 3+ semanas'},
+    {n:'15',title:'Definir maestra de datos (tardía — debió ser en F1)',owners:['GI'],crit:true,src:'NetRed',output:'Maestra datos tardía',dep:null},
+    {n:'16',title:'Primer reporte con datos parcialmente corregidos',owners:['GI','GA'],crit:false,src:'ambos',output:'Reporte con caveats',dep:'Corrección parcial'},
+    {n:'17',title:'Informe D60: obras parcialmente estandarizadas + deuda técnica',owners:['GI','GA','DIR'],crit:true,src:'ambos',output:'Presentación directorio',dep:null}
+  ]
+};
+
+var DEC_BASE = {
+  datos:       {d:[92,68,72,18,72], rec:'Estrategia mas solida. Resuelve la raiz del problema detectado por NetRed. Los primeros 30 dias de F2 seran invisibles operativamente, pero al D60 la organizacion tiene una base real para construir sobre ella. Comunica al directorio que los entregables visibles llegan en semana 7-8.'},
+  datos_obras: {d:[88,76,82,22,68], rec:'Secuencia recomendada para Independencia. Semanas 5-6 limpian datos, semanas 7-8 construyen dashboard sobre esa base. El resultado es un dashboard de obras con datos confiables — no un dashboard bonito con informacion basura. Requiere GI con dedicacion real de al menos 35h/semana.'},
+  sap:         {d:[80,70,70,35,52], rec:'Valido si SAP esta bien configurado y el GI tiene tiempo. Aprovecha los 35 anos de historia financiera que ya estan en SAP. El riesgo: sin cambio de cultura paralelo, los usuarios pueden seguir usando planillas aunque los modulos esten activos.'},
+  piloto:      {d:[82,82,55,20,60], rec:'Especialmente relevante para La Rioja/DS49 donde los errores tienen costo contractual con SERVIU. El aprendizaje del piloto es directamente aplicable a los proyectos privados. Riesgo: en D60 solo DS49 estara migrado — necesitas plan D61-90 explicito.'},
+  cultura:     {d:[58,94,42,25,88], rec:'Correcto segun NetRed, que identifico cultura de ejecucion en 1.5/5. Pero para Independencia el problema tecnico es urgente — sin datos limpios, proyectos como Hacienda La Esmeralda tienen riesgo financiero real. Considera hacer cultura + datos en paralelo reduciendo el alcance de cada frente.'},
+  obras:       {d:[38,65,60,72,35], rec:'NO RECOMENDADO como inicio. Sin maestra de datos, el dashboard ingesta informacion inconsistente. En semana 3-4 empezaras a ver discrepancias entre el dashboard y SAP, generando desconfianza en el sistema — exactamente el problema que Ai-COACH detecto. El retrabajo esperado es alto.'}
+};
+
+var DEC_LABELS = {datos:'Datos Primero',datos_obras:'Datos → Obras',sap:'Activar SAP',piloto:'Piloto DS49',cultura:'Cultura + Silos',obras:'Obras (riesgo)'};
+
+var GANTT_F2 = {
+  datos:[
+    {l:'Maestra datos v2',o:'GI + KU',b:[4,5],c:'bb'},{l:'Repositorio centralizado',o:'GI',b:[4,5,6],c:'bp'},
+    {l:'Migrar 3 areas',o:'GI + GA + KU',b:[5,6,7],c:'bb'},{l:'Flujo OC a Stock',o:'GI + KU Abast.',b:[4,5,6],c:'ba'},
+    {l:'Dashboard gerencial',o:'GI',b:[6,7],c:'bg'},{l:'Reporte SERVIU/bancos',o:'GI + GA',b:[7],c:'ba'}
+  ],
+  datos_obras:[
+    {l:'Maestra datos v2',o:'GI + KU',b:[4,5],c:'bb'},{l:'Migrar datos obras',o:'GI + KU Obras',b:[4,5],c:'bb'},
+    {l:'Dashboard obras (datos limpios)',o:'GI + KU Obras',b:[5,6,7],c:'ba'},{l:'Metodologia estandarizada',o:'GI + KU Obras',b:[6,7],c:'ba'},
+    {l:'SAP costos integrado',o:'GI',b:[6,7],c:'bg'},{l:'Reporte gerencial desde sistema',o:'GI + GA',b:[7],c:'ba'}
+  ],
+  sap:[
+    {l:'Auditoria modulos SAP',o:'GI',b:[4],c:'bb'},{l:'SAP: costos por obra',o:'GI',b:[4,5,6],c:'ba'},
+    {l:'SAP: stock + OC',o:'GI + KU Abast.',b:[5,6],c:'ba'},{l:'Capacitacion SAP roles',o:'GI + GA',b:[5,6,7],c:'bg'},
+    {l:'Flujo unico sin doble digit.',o:'GI + GA',b:[6,7],c:'bw'},{l:'Informe D60',o:'GI + GA + DIR',b:[7],c:'ba'}
+  ],
+  piloto:[
+    {l:'Alcance piloto DS49',o:'GI + GA',b:[4],c:'bb'},{l:'Migrar datos DS49',o:'GI + KU',b:[4,5],c:'bb'},
+    {l:'Flujo OC DS49',o:'GI + KU Abast.',b:[5,6],c:'ba'},{l:'Reporte SERVIU desde sistema',o:'GI + GA',b:[6,7],c:'ba'},
+    {l:'Medir adopcion piloto',o:'GA + KU',b:[5,6,7],c:'bw'},{l:'Guia replicacion',o:'GI + GA',b:[7],c:'bg'}
+  ],
+  cultura:[
+    {l:'Plan comunicacion interna',o:'GA + DIR',b:[4,5],c:'bp'},{l:'Workshops alineamiento',o:'GA + KU',b:[4,5,6],c:'bp'},
+    {l:'Capacitacion x6',o:'GA + KU',b:[4,5,6,7],c:'bg'},{l:'Dashboard solo lectura',o:'GI',b:[5,6],c:'bb'},
+    {l:'Medir adopcion D50',o:'GA',b:[6,7],c:'bw'},{l:'Migracion condicional',o:'GA + GI',b:[7],c:'ba'}
+  ],
+  obras:[
+    {l:'Dashboard obras (sin datos limpios)',o:'GI + KU Obras',b:[4,5,6],c:'bw'},{l:'Capacitacion dashboard',o:'GA + KU',b:[5,6],c:'bg'},
+    {l:'Refactor datos (retrabajo)',o:'GI',b:[6,7],c:'bw'},{l:'Maestra datos (tardia)',o:'GI',b:[6,7],c:'bb'},
+    {l:'Reporte con caveats',o:'GI + GA',b:[7],c:'bw'},{l:'Informe D60 + deuda tecnica',o:'GI + GA + DIR',b:[7],c:'ba'}
+  ]
+};
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+var done = {};
+var f2Unlocked = false;
+var currentDec = null;
+var riskOn = [false,false,false,false,false,false];
+var RW = [20,15,18,15,12,10];
+
+var srcStyle = {'Ai-COACH':'tsrca','NetRed':'tsrcb','ambos':'tsrca'};
+var srcLabel = {'Ai-COACH':'Ai-COACH','NetRed':'NetRed','ambos':'AI-COACH + NetRed'};
+var ownerClass = {'GI':'tgi','GA':'tga','KU':'tku','DIR':'tdir','KU Obras':'tku','KU Abast.':'tku'};
+
+function getOwnerClass(o) {
+  if (o.indexOf('GI') === 0) return 'tgi';
+  if (o.indexOf('GA') === 0) return 'tga';
+  if (o.indexOf('DIR') === 0) return 'tdir';
+  if (o.indexOf('KU') === 0) return 'tku';
+  return 'tout';
+}
+
+// ─── TOP NAV ──────────────────────────────────────────────────────────────────
+document.querySelectorAll('.tnav').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var page = btn.getAttribute('data-page');
+    document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+    document.querySelectorAll('.tnav').forEach(function(t){ t.classList.remove('active'); });
+    document.getElementById('page-' + page).classList.add('active');
+    btn.classList.add('active');
+    if (page === 'f1detail') renderF1Explain();
+  });
+});
+
+// ─── PHASE TABS ───────────────────────────────────────────────────────────────
+document.querySelectorAll('.ptab').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var phase = btn.getAttribute('data-phase');
+    if (phase === 'f2' && !f2Unlocked) {
+      showPhase('f2');
+      document.getElementById('gate').style.display = 'block';
+      document.getElementById('tf2').innerHTML = '';
+      return;
+    }
+    showPhase(phase);
+  });
+});
+
+function showPhase(p) {
+  document.querySelectorAll('.pc').forEach(function(e){ e.classList.remove('active'); });
+  document.querySelectorAll('.ptab').forEach(function(e){ e.classList.remove('active'); });
+  document.getElementById('panel-' + p).classList.add('active');
+  document.getElementById('tab-' + p).classList.add('active');
+}
+
+// ─── RISK TOGGLES ─────────────────────────────────────────────────────────────
+for (var ri = 0; ri < 6; ri++) {
+  (function(i) {
+    document.getElementById('sw' + i).addEventListener('click', function() {
+      riskOn[i] = !riskOn[i];
+      this.classList.toggle('on', riskOn[i]);
+      var base = 42;
+      riskOn.forEach(function(on, j){ if(on) base += RW[j]; });
+      base = Math.min(base, 100);
+      document.getElementById('rv').textContent = base + '%';
+      document.getElementById('rf').style.width = base + '%';
+      var col = base < 50 ? 'var(--green)' : base < 70 ? 'var(--warn)' : 'var(--danger)';
+      document.getElementById('rf').style.background = col;
+      document.getElementById('rv').style.color = col;
+    });
+  })(ri);
+}
+
+// ─── RENDER F1 ────────────────────────────────────────────────────────────────
+function renderF1() {
+  var html = '';
+  F1.forEach(function(t) {
+    var isBlocked = t.dep && !done[t.dep];
+    var isDone = !!done[t.id];
+    var ckClass = 'tck' + (isDone ? ' done' : '') + (isBlocked && !isDone ? ' blocked' : '');
+    var tagsHtml = t.owners.map(function(o){ return '<span class="tag ' + getOwnerClass(o) + '">' + o + '</span>'; }).join('');
+    if (t.crit) tagsHtml += '<span class="tag tcrit">CRÍTICO</span>';
+    if (PREREQS.indexOf(t.id) >= 0) tagsHtml += '<span class="tag tpre">PREREQ F2</span>';
+    tagsHtml += '<span class="tag ' + srcStyle[t.src] + '">' + srcLabel[t.src] + '</span>';
+    tagsHtml += '<span class="tag tout">→ ' + t.output + '</span>';
+    var depHtml = t.dep ? '<div class="tdep">⟶ Requiere T' + t.dep.replace('t','') + ' primero</div>' : '';
+    html += '<div class="titem">';
+    html += '<div class="tnum">' + t.n + '</div>';
+    html += '<div class="tb"><div class="tt">' + t.title + '</div><div class="tm">' + tagsHtml + '</div>' + depHtml + '</div>';
+    html += '<div class="' + ckClass + '" data-id="' + t.id + '" data-blocked="' + (isBlocked && !isDone ? '1' : '0') + '"></div>';
+    html += '</div>';
+  });
+  document.getElementById('tf1').innerHTML = html;
+  document.querySelectorAll('#tf1 .tck').forEach(function(el) {
+    el.addEventListener('click', function() {
+      if (this.getAttribute('data-blocked') === '1') {
+        return;
+      }
+      var id = this.getAttribute('data-id');
+      if (id) toggleT(id);
+    });
+  });
+}
+
+function toggleT(id) {
+  done[id] = !done[id];
+  renderF1();
+  updateKPIs();
+  updateProgress();
+  checkGate();
+}
+
+// ─── EXPLAIN F1 ───────────────────────────────────────────────────────────────
+function renderF1Explain() {
+  var html = '';
+  F1.forEach(function(t) {
+    var tagsHtml = t.owners.map(function(o){ return '<span class="tag ' + getOwnerClass(o) + '">' + o + '</span>'; }).join('');
+    if (t.crit) tagsHtml += '<span class="tag tcrit">CRÍTICO</span>';
+    if (PREREQS.indexOf(t.id) >= 0) tagsHtml += '<span class="tag tpre">PREREQ F2</span>';
+    var haceHtml = t.hace.map(function(h){ return '<li>' + h + '</li>'; }).join('');
+    var riesgoHtml = t.riesgo.map(function(r){ return '<li>' + r + '</li>'; }).join('');
+    html += '<div class="f1exp-item" id="exp-' + t.id + '">';
+    html += '<div class="f1exp-header" data-eid="' + t.id + '">';
+    html += '<div class="f1exp-num">' + t.n + '</div>';
+    html += '<div class="f1exp-title">' + t.title + '</div>';
+    html += '<div class="f1exp-tags">' + tagsHtml + '</div>';
+    html += '<div class="f1exp-chevron">▶</div>';
+    html += '</div>';
+    html += '<div class="f1exp-body">';
+    html += '<div class="f1exp-why"><h5>¿Por qué existe esta tarea?</h5><p>' + t.why + '</p></div>';
+    html += '<div class="f1exp-cols">';
+    html += '<div class="f1exp-col"><h6>Qué produce concretamente</h6><ul>' + haceHtml + '</ul></div>';
+    html += '<div class="f1exp-col"><h6>Riesgo si se omite o hace mal</h6><ul>' + riesgoHtml + '</ul></div>';
+    html += '</div>';
+    html += '<div class="f1exp-indep"><h6>Contexto específico de Independencia</h6><p>' + t.indep + '</p></div>';
+    html += '</div></div>';
+  });
+  document.getElementById('f1exp-container').innerHTML = html;
+  document.querySelectorAll('.f1exp-header').forEach(function(el) {
+    el.addEventListener('click', function() {
+      var id = this.getAttribute('data-eid');
+      document.getElementById('exp-' + id).classList.toggle('open');
+    });
+  });
+}
+
+// ─── GATE ─────────────────────────────────────────────────────────────────────
+function checkGate() {
+  var n = PREREQS.filter(function(p){ return !!done[p]; }).length;
+  document.getElementById('kpre').textContent = n + '/5';
+  document.getElementById('kpre').style.color = n === 5 ? 'var(--green)' : 'var(--warn)';
+  var tab2 = document.getElementById('tab-f2');
+  if (f2Unlocked) {
+    tab2.textContent = 'Fase 2 ✓';
+  } else if (n === 5 && currentDec) {
+    tab2.textContent = 'Fase 2 🔓';
+  } else {
+    tab2.textContent = 'Fase 2 🔒';
+  }
+  var prelist = document.getElementById('prelist');
+  if (prelist) {
+    prelist.innerHTML = PREREQS.map(function(p){
+      return '<div class="preq"><span class="' + (done[p] ? 'pok' : 'pno') + '">' + (done[p] ? '✓' : '✗') + '</span>' + PREREQ_LABELS[p] + '</div>';
+    }).join('');
+  }
+  var btn = document.getElementById('ubtn');
+  if (btn) {
+    var canUnlock = n === 5 && currentDec;
+    btn.classList.toggle('off', !canUnlock);
+    btn.textContent = canUnlock ? 'Generar Fase 2 →' : 'Completa prerrequisitos y elige estrategia';
+  }
+}
+
+document.getElementById('ubtn').addEventListener('click', function() {
+  var n = PREREQS.filter(function(p){ return !!done[p]; }).length;
+  if (n < 5 || !currentDec) return;
+  doUnlock();
+});
+
+function doUnlock() {
+  f2Unlocked = true;
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('tab-f2').textContent = 'Fase 2 ✓';
+  renderF2();
+  updateGanttF2();
+}
+
+// ─── RENDER F2 ────────────────────────────────────────────────────────────────
+function renderF2() {
+  var tf2 = document.getElementById('tf2');
+  if (!currentDec) {
+    tf2.innerHTML = '<div style="padding:24px;text-align:center;font-size:.75rem;color:var(--muted)">Elige una estrategia en <strong style="color:var(--text)">Simulador F2</strong> para generar las tareas.</div>';
+    return;
+  }
+  var subs = {datos:'Prioridad: Repositorio de Datos',datos_obras:'Datos → Dashboard Obras',sap:'Activación SAP',piloto:'Piloto DS49/La Rioja',cultura:'Cultura + Silos',obras:'⚠ Obras (riesgo)'};
+  document.getElementById('f2sub').textContent = subs[currentDec] || '';
+  var tasks = F2T[currentDec];
+  var html = '';
+  tasks.forEach(function(t) {
+    var tagsHtml = t.owners.map(function(o){ return '<span class="tag ' + getOwnerClass(o) + '">' + o + '</span>'; }).join('');
+    if (t.crit) tagsHtml += '<span class="tag tcrit">CRÍTICO</span>';
+    tagsHtml += '<span class="tag ' + srcStyle[t.src] + '">' + srcLabel[t.src] + '</span>';
+    tagsHtml += '<span class="tag tout">→ ' + t.output + '</span>';
+    var depHtml = t.dep ? '<div class="tdep">⟶ Requiere: ' + t.dep + '</div>' : '';
+    html += '<div class="titem">';
+    html += '<div class="tnum">' + t.n + '</div>';
+    html += '<div class="tb"><div class="tt">' + t.title + '</div><div class="tm">' + tagsHtml + '</div>' + depHtml + '</div>';
+    html += '<div class="tck f2ck"></div>';
+    html += '</div>';
+  });
+  tf2.innerHTML = html;
+  tf2.querySelectorAll('.f2ck').forEach(function(el) {
+    el.addEventListener('click', function(){ this.classList.toggle('done'); updateKPIs(); });
+  });
+}
+
+function updateGanttF2() {
+  var lbl = document.getElementById('gp2lbl');
+  var rows = document.getElementById('gp2rows');
+  if (!f2Unlocked || !currentDec) {
+    lbl.textContent = '▸ FASE 2 — Usa el Simulador F2 para generar tareas personalizadas';
+    rows.innerHTML = '';
+    return;
+  }
+  lbl.textContent = '▸ FASE 2 — ' + DEC_LABELS[currentDec] + ' (Días 31–60)';
+  var tpl = GANTT_F2[currentDec] || [];
+  var html = '';
+  tpl.forEach(function(r) {
+    var cells = '';
+    for (var i = 0; i < 8; i++) {
+      if (i < 4) {
+        cells += '<div class="gc"><div class="gbar ba bdim">—</div></div>';
+      } else if (r.b.indexOf(i) >= 0) {
+        var lbl2 = i === r.b[0] ? 'INI' : i === r.b[r.b.length-1] ? 'FIN' : 'EJE';
+        cells += '<div class="gc"><div class="gbar ' + r.c + '">' + lbl2 + '</div></div>';
+      } else {
+        cells += '<div class="gc"></div>';
+      }
+    }
+    html += '<div class="grow"><div class="glbl"><div class="gt">' + r.l + '</div><div class="go">' + r.o + '</div></div><div class="gcells">' + cells + '</div></div>';
+  });
+  rows.innerHTML = html;
+}
+
+// ─── SIMULATOR ────────────────────────────────────────────────────────────────
+document.querySelectorAll('.dec').forEach(function(el) {
+  el.addEventListener('click', function() {
+    var key = this.getAttribute('data-dec');
+    document.querySelectorAll('.dec').forEach(function(d){ d.classList.remove('sel'); });
+    this.classList.add('sel');
+    currentDec = key;
+    document.getElementById('kdec').textContent = DEC_LABELS[key];
+    document.getElementById('sliders-wrap').style.display = 'block';
+    updateSim();
+    checkGate();
+    if (f2Unlocked) { renderF2(); updateGanttF2(); }
+  });
+});
+
+function updateSim() {
+  if (!currentDec) return;
+  var base = DEC_BASE[currentDec].d;
+  var gi = parseInt(document.getElementById('sl-gi').value);
+  var ku = parseInt(document.getElementById('sl-ku').value);
+  var dat = parseInt(document.getElementById('sl-dat').value);
+  var dir = parseInt(document.getElementById('sl-dir').value);
+  var res = parseInt(document.getElementById('sl-res').value);
+
+  document.getElementById('sv-gi').textContent = gi + 'h';
+  document.getElementById('sv-ku').textContent = ku + '%';
+  document.getElementById('sv-dat').textContent = dat + '%';
+  document.getElementById('sv-dir').textContent = dir + '/5';
+  document.getElementById('sv-res').textContent = res + '/5';
+
+  var giMod = (gi - 20) / 20 * 10;
+  var kuMod = (ku - 20) / 20 * 8;
+  var datMod = (dat - 30) / 30 * 8;
+  var dirMod = (dir - 3) * 5;
+  var resMod = (3 - res) * 5;
+  var total = giMod + kuMod + datMod + dirMod + resMod;
+
+  var adj = base.map(function(v, i) {
+    var m = i === 3 ? -total * 0.6 : total * 0.4;
+    return Math.max(5, Math.min(98, Math.round(v + m)));
+  });
+
+  document.getElementById('simout').classList.add('show');
+  setTimeout(function() {
+    for (var i = 0; i < 5; i++) {
+      document.getElementById('si' + i).style.width = adj[i] + '%';
+      document.getElementById('ss' + i).textContent = adj[i] + '%';
+    }
+    document.getElementById('simrec').textContent = DEC_BASE[currentDec].rec;
+  }, 50);
+
+  var highRisk = adj[3] > 55 || (gi < 15 && currentDec !== 'cultura');
+  document.getElementById('alertsim').classList.toggle('show', highRisk);
+}
+
+['sl-gi','sl-ku','sl-dat','sl-dir','sl-res'].forEach(function(id) {
+  document.getElementById(id).addEventListener('input', updateSim);
+});
+
+document.getElementById('apply-btn').addEventListener('click', function() {
+  if (!currentDec) return;
+  var n = PREREQS.filter(function(p){ return !!done[p]; }).length;
+  if (n >= 5) { doUnlock(); }
+  else { f2Unlocked = true; renderF2(); updateGanttF2(); }
+  document.getElementById('applied-msg').style.display = 'inline';
+  var msg = document.getElementById('applied-msg');
+  setTimeout(function(){ msg.style.display = 'none'; }, 3000);
+  // switch to roadmap
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tnav').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById('page-roadmap').classList.add('active');
+  document.querySelector('.tnav[data-page="roadmap"]').classList.add('active');
+  showPhase('f2');
+});
+
+// ─── KPIs ─────────────────────────────────────────────────────────────────────
+function updateKPIs() {
+  var f1d = F1.filter(function(t){ return !!done[t.id]; }).length;
+  var f2d = document.querySelectorAll('#tf2 .f2ck.done').length;
+  var total = f1d + f2d;
+  var max = 9 + (currentDec ? F2T[currentDec].length : 0);
+  document.getElementById('kf1').textContent = f1d + '/9';
+  document.getElementById('kf1').style.color = f1d === 9 ? 'var(--green)' : 'var(--accent)';
+  document.getElementById('ktot').textContent = total;
+  document.getElementById('ktots').textContent = 'de ' + max + ' tareas';
+}
+
+// ─── PROGRESS ─────────────────────────────────────────────────────────────────
+function updateProgress() {
+  var am = {gov:['t1','t2','t9'],data:['t3','t4','t5','t6'],cap:['t8'],cult:['t7'],sys:[]};
+  var keys = ['gov','data','cap','cult','sys'];
+  keys.forEach(function(a, i) {
+    var tasks = am[a];
+    if (!tasks.length) return;
+    var d = tasks.filter(function(t){ return !!done[t]; }).length;
+    var pct = Math.round(d / tasks.length * 100);
+    document.getElementById('pg' + i).style.width = pct + '%';
+    document.getElementById('pv' + i).textContent = pct + '%';
+  });
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+renderF1();
+checkGate();
+</script>
+</body>
+</html>
