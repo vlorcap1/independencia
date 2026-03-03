@@ -1097,5 +1097,467 @@ function updateProgress() {
 renderF1();
 checkGate();
 </script>
+
+<!-- ══════════════════════════════════════════
+     CHAT WIDGET
+══════════════════════════════════════════ -->
+<style>
+/* ── CHAT BUBBLE ── */
+#chat-bubble {
+  position:fixed;bottom:24px;right:24px;
+  width:52px;height:52px;border-radius:50%;
+  background:var(--accent);color:#000;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;box-shadow:0 4px 20px rgba(0,229,180,.35);
+  z-index:9999;transition:transform .2s,box-shadow .2s;
+  border:none;font-size:1.3rem;
+}
+#chat-bubble:hover{transform:scale(1.08);box-shadow:0 6px 26px rgba(0,229,180,.5);}
+#chat-bubble .notif{
+  position:absolute;top:-3px;right:-3px;
+  width:14px;height:14px;border-radius:50%;
+  background:var(--danger);font-size:.45rem;color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Mono',monospace;font-weight:700;
+}
+
+/* ── CHAT PANEL ── */
+#chat-panel {
+  position:fixed;bottom:88px;right:24px;
+  width:400px;height:560px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;display:flex;flex-direction:column;
+  box-shadow:0 16px 48px rgba(0,0,0,.6);
+  z-index:9998;transform:scale(.95) translateY(12px);
+  opacity:0;pointer-events:none;
+  transition:transform .22s cubic-bezier(.34,1.56,.64,1), opacity .18s ease;
+}
+#chat-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}
+
+/* ── CHAT HEADER ── */
+.chat-head {
+  padding:12px 14px 10px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:9px;
+  border-radius:14px 14px 0 0;
+  background:linear-gradient(135deg,rgba(0,229,180,.06) 0%,rgba(79,142,247,.04) 100%);
+}
+.chat-head-ico{
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(0,229,180,.12);border:1px solid rgba(0,229,180,.25);
+  display:flex;align-items:center;justify-content:center;font-size:1rem;
+  flex-shrink:0;
+}
+.chat-head-info{flex:1;}
+.chat-head-info .cn{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:800;}
+.chat-head-info .cs{font-size:.62rem;color:var(--muted);font-family:'DM Mono',monospace;}
+.chat-head-info .cs span{color:var(--green);}
+.chat-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:4px;border-radius:4px;transition:color .15s;}
+.chat-close:hover{color:var(--text);}
+
+/* ── CONTEXT PILLS ── */
+.ctx-pills{
+  display:flex;gap:4px;padding:7px 11px;
+  border-bottom:1px solid var(--border);
+  overflow-x:auto;flex-shrink:0;
+}
+.ctx-pills::-webkit-scrollbar{height:0;}
+.cpill{
+  font-family:'DM Mono',monospace;font-size:.52rem;
+  padding:2px 7px;border-radius:10px;white-space:nowrap;cursor:pointer;
+  transition:all .15s;border:1px solid transparent;
+}
+.cpill.active{background:rgba(0,229,180,.12);border-color:rgba(0,229,180,.3);color:var(--accent);}
+.cpill:not(.active){background:var(--s1);border-color:var(--border);color:var(--muted);}
+
+/* ── MESSAGES ── */
+.chat-msgs{
+  flex:1;overflow-y:auto;padding:12px 13px;
+  display:flex;flex-direction:column;gap:9px;
+}
+.chat-msgs::-webkit-scrollbar{width:3px;}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--border);}
+.msg{max-width:88%;animation:msgIn .18s ease;}
+@keyframes msgIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+.msg.user{align-self:flex-end;}
+.msg.ai{align-self:flex-start;}
+.msg-bubble{
+  padding:8px 11px;border-radius:10px;font-size:.72rem;line-height:1.6;
+}
+.msg.user .msg-bubble{background:rgba(0,229,180,.12);border:1px solid rgba(0,229,180,.2);color:var(--text);border-radius:10px 10px 2px 10px;}
+.msg.ai .msg-bubble{background:var(--s1);border:1px solid var(--border);color:var(--text);border-radius:10px 10px 10px 2px;}
+.msg.ai .msg-bubble b{color:var(--accent);}
+.msg-meta{font-family:'DM Mono',monospace;font-size:.52rem;color:var(--muted);margin-top:3px;padding:0 3px;}
+.msg.user .msg-meta{text-align:right;}
+.typing-indicator{display:flex;gap:4px;padding:10px 13px;align-items:center;}
+.typing-indicator span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite;}
+.typing-indicator span:nth-child(2){animation-delay:.2s;}
+.typing-indicator span:nth-child(3){animation-delay:.4s;}
+@keyframes blink{0%,80%,100%{opacity:.2;}40%{opacity:1;}}
+
+/* ── QUICK QUESTIONS ── */
+.quick-qs{
+  display:flex;flex-wrap:wrap;gap:4px;
+  padding:8px 11px;border-top:1px solid var(--border);
+}
+.qq{
+  font-family:'DM Mono',monospace;font-size:.58rem;
+  padding:4px 8px;border-radius:5px;cursor:pointer;
+  background:var(--s1);border:1px solid var(--border);
+  color:var(--muted);transition:all .15s;white-space:nowrap;
+}
+.qq:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── INPUT ── */
+.chat-input-row{
+  display:flex;gap:7px;padding:9px 11px;
+  border-top:1px solid var(--border);
+  border-radius:0 0 14px 14px;
+}
+#chat-input{
+  flex:1;background:var(--s1);border:1px solid var(--border);
+  border-radius:7px;padding:7px 10px;color:var(--text);
+  font-family:'Lato',sans-serif;font-size:.72rem;
+  outline:none;resize:none;min-height:32px;max-height:80px;
+  transition:border-color .15s;
+}
+#chat-input:focus{border-color:var(--accent);}
+#chat-input::placeholder{color:var(--muted);}
+#chat-send{
+  background:var(--accent);color:#000;border:none;
+  width:32px;height:32px;border-radius:7px;cursor:pointer;
+  font-size:.85rem;flex-shrink:0;transition:opacity .15s;
+  display:flex;align-items:center;justify-content:center;
+}
+#chat-send:hover{opacity:.85;}
+#chat-send:disabled{opacity:.35;cursor:not-allowed;}
+</style>
+
+<!-- Bubble -->
+<button id="chat-bubble" title="Consultar sobre Independencia">
+  💬
+  <div class="notif">IA</div>
+</button>
+
+<!-- Panel -->
+<div id="chat-panel">
+  <div class="chat-head">
+    <div class="chat-head-ico">🏗</div>
+    <div class="chat-head-info">
+      <div class="cn">Asesor Independencia</div>
+      <div class="cs"><span>●</span> Contexto completo cargado · Ai-COACH + NetRed</div>
+    </div>
+    <button class="chat-close" id="chat-close-btn">✕</button>
+  </div>
+
+  <div class="ctx-pills">
+    <div class="cpill active" data-ctx="general">General</div>
+    <div class="cpill" data-ctx="f1">Fase 1</div>
+    <div class="cpill" data-ctx="f2">Estrategia F2</div>
+    <div class="cpill" data-ctx="datos">Datos</div>
+    <div class="cpill" data-ctx="sap">SAP</div>
+    <div class="cpill" data-ctx="obras">Obras</div>
+    <div class="cpill" data-ctx="larioja">La Rioja/DS49</div>
+  </div>
+
+  <div class="chat-msgs" id="chat-msgs">
+    <div class="msg ai">
+      <div class="msg-bubble">
+        Hola 👋 Soy tu asesor con contexto completo de <b>Constructora Independencia</b>.<br><br>
+        Tengo cargados ambos diagnósticos (Ai-COACH y NetRed), la estructura del Grupo (Independencia S.A. + La Rioja + Hacienda La Esmeralda) y el roadmap de 60 días.<br><br>
+        ¿Qué quieres consultar?
+      </div>
+      <div class="msg-meta">asesor · ahora</div>
+    </div>
+  </div>
+
+  <div class="quick-qs" id="quick-qs">
+    <div class="qq" data-q="¿Por qué no empezar por Obras?">¿Por qué no Obras primero?</div>
+    <div class="qq" data-q="¿Qué estrategia F2 recomiendas para Independencia?">Estrategia F2 ideal</div>
+    <div class="qq" data-q="¿Cómo impacta La Rioja en el diagnóstico?">Rol de La Rioja</div>
+    <div class="qq" data-q="¿Cuál es el mayor riesgo del roadmap?">Mayor riesgo</div>
+    <div class="qq" data-q="¿Qué debo presentar al directorio en D30?">Informe D30</div>
+  </div>
+
+  <div class="chat-input-row">
+    <textarea id="chat-input" placeholder="Pregunta sobre Independencia, el roadmap, SAP, datos..." rows="1"></textarea>
+    <button id="chat-send">➤</button>
+  </div>
+</div>
+
+<script>
+// ── SYSTEM PROMPT ─────────────────────────────────────────────────────────────
+var SYSTEM_PROMPT = `Eres un asesor experto en transformación digital para Constructora e Inmobiliaria Independencia, empresa constructora de 35 años con sede en Talca, Región del Maule, Chile. Tienes acceso completo a dos diagnósticos organizacionales y al roadmap de 60 días.
+
+=== CONTEXTO DE LA EMPRESA ===
+
+GRUPO INDEPENDENCIA:
+- Empresa principal: Constructora e Inmobiliaria Independencia S.A. — fundada ~1989, Talca, Maule
+- 70.000 viviendas construidas. 1 de cada 6 familias maulinas vive en sus hogares.
+- Dueños: Ángel Bartolomé Cecchi y Fernando Leiva Salinas
+- 174 empleados, 55+ profesionales (arquitectos, ingenieros, constructores, contadores)
+- Proyectos en 15+ comunas del Maule: Talca, Curicó, Linares, Parral, San Javier, Molina, etc.
+- Subsidiaria social: Constructora La Rioja — especializada en DS49/DS19 (Plan Emergencia Habitacional), 3.000+ viviendas en construcción, 2.000+ en postulación
+- Proyecto estratégico: Hacienda La Esmeralda — 52+ hectáreas sector oriente Talca, masterplan 10 años, mezcla vivienda + salud + educación + comercio. El proyecto urbano privado más grande de Talca.
+- Compromiso social: patrocinio Hospital Regional de Talca
+- Opera proyectos DS49 y privados simultáneamente, con múltiples razones sociales
+
+=== DIAGNÓSTICO 1: Ai-COACH (Musalem, Fischer, Serra) — Brechas Operativas ===
+
+HALLAZGOS CRÍTICOS:
+1. Programación de obras 100% manual en Google Sheets — sin sistema específico
+2. SAP Business One instalado pero subutilizado: solo contabilidad activa, módulos de costos y stock DESACTIVADOS
+3. I-Construye fragmentado — no integrado a flujos diarios, uso inconsistente por área
+4. ECore subutilizado — potencial no aprovechado
+5. Google Drive como sistema informal de documentos — sin control de versiones
+6. OC sin seguimiento: proveedores no cumplen Fill Rate, órdenes caducan sin reposición
+7. Reportería para directorio y bancos requiere múltiples revisiones manuales
+8. Uso de IA solo individual y aislado — sin estrategia corporativa
+9. Alta dependencia de personas clave informales — riesgo de continuidad
+10. Falta de capacitación transversal en sistemas existentes
+
+=== DIAGNÓSTICO 2: NetRed (Pedro Montero I.) — Madurez Organizacional ===
+
+PUNTUACIONES DE MADUREZ (escala 1-5):
+- Alineamiento estratégico: 1.8/5 — estrategia reactiva, no basada en datos
+- Agilidad organizacional: 2.0/5 — optimización en silos, no sistémica
+- Cultura de ejecución: 1.5/5 — empresa familiar, "la obra es lo primero"
+- Gobernanza del dato: 1.2/5 — datos no gestionados como activo
+- Analítica / BI: 1.0/5 — reportería manual sin insights automáticos
+- Base para IA: 0.8/5 — datos desintegrados, IA corporativa inviable hoy
+
+PROBLEMAS ESTRUCTURALES DETECTADOS:
+1. Estrategia reactiva — decisiones impulsivas sin datos
+2. Silos organizacionales — Obras, Abastecimiento, Finanzas no se comunican en tiempo real
+3. Ciclo del dato INVERTIDO: más tiempo produciendo datos que usándolos para decidir
+4. No existe repositorio centralizado de datos — hace inviable cualquier base de IA
+5. TI sin rol estratégico — percibido como soporte técnico, no habilitador de negocio
+6. Cultura sin incentivos para la estrategia deliberada
+7. Datos sin trazabilidad ni credibilidad entre áreas
+
+=== ROADMAP 60 DÍAS ===
+
+FASE 1 — FUNDAMENTOS (Días 1–30, 9 tareas):
+T01 [PREREQ] Kickoff Comité Digital — acta firmada con directorio
+T02 [PREREQ] Designar Key Users × 4 áreas con 30% dedicación formal
+T03 Inventario fuentes de datos activas (SAP, planillas, Drive, sistemas)
+T04 [PREREQ] Definir sistema fuente único por proceso crítico
+T05 [PREREQ] Maestra de datos v1 — nomenclaturas, formatos, responsables
+T06 Reglas de gobernanza del dato — data owners por dominio
+T07 [PREREQ] Mapa de silos interáreas — áreas blancas y duplicidades
+T08 Capacitación digital × 3 sesiones prácticas
+T09 Cierre F1 + Informe D30 para directorio
+
+FASE 2 — ESTANDARIZACIÓN (Días 31–60, se desbloquea con 5 PREREQ completados):
+6 estrategias disponibles:
+1. Datos Primero — repositorio centralizado, eliminar planillas paralelas (RECOMENDADA BASE)
+2. Datos → luego Obras — maestra v2 sem.5-6, dashboard obras sem.7-8 (MÁS RECOMENDADA)
+3. Activar SAP — módulos costos+stock, eliminar doble digitación
+4. Piloto La Rioja DS49 — ciclo completo DS49/SERVIU, aprendizaje replicable
+5. Cultura + Silos — workshops, incentivos, medición adopción
+6. Obras Primero — (NO RECOMENDADA: dashboard sin datos limpios = retrabajo garantizado)
+
+=== ARGUMENTO CENTRAL: POR QUÉ NO EMPEZAR POR OBRAS ===
+
+1. CAUSA vs SÍNTOMA: La dificultad para programar obras es síntoma. La causa es que los datos son inconsistentes, no hay nomenclatura estándar, y el mismo dato existe con valores distintos en SAP, planillas y Drive.
+2. DASHBOARD SOBRE ARENA: Un dashboard de obras sin maestra de datos ingesta información inconsistente. En 3-4 semanas aparecen discrepancias entre el dashboard y SAP — exactamente el problema que generó desconfianza en los sistemas (detectado por Ai-COACH).
+3. RETRABAJO GARANTIZADO: Al no limpiar datos primero, el equipo tendrá que refactorizar datos A POSTERIORI mientras el dashboard ya está en uso — doble trabajo, credibilidad dañada.
+4. MULTI-ENTIDAD: Con Independencia S.A. y La Rioja operando en paralelo, un dashboard de obras sin repositorio único mostrará datos de solo una entidad o mezclará datos incompatibles.
+5. PRESENTACIONES BANCARIAS: Hacienda La Esmeralda requiere datos trazables para financiamiento bancario. Sin gobernanza del dato, ese requerimiento no puede cumplirse.
+6. NetRed lo confirma: madurez de gobernanza datos 1.2/5. Construir sobre eso es construir sobre inestabilidad.
+
+=== INSTRUCCIONES DE RESPUESTA ===
+
+- Responde SIEMPRE en español
+- Sé directo, preciso y usa lenguaje ejecutivo — el usuario trabaja con directivos
+- Cuando sea relevante, cita el diagnóstico fuente (Ai-COACH o NetRed)
+- Usa negritas para puntos clave
+- Respuestas máximo 200 palabras salvo que se pida más detalle
+- Si el usuario pregunta algo fuera del contexto de Independencia, redirige amablemente
+- Para temas de riesgo, sé explícito sobre las consecuencias
+- Cuando menciones tareas del roadmap, refiérete al número (ej: T01, T05)`;
+
+// ── CTX FOCUS ─────────────────────────────────────────────────────────────────
+var CTX_EXTRA = {
+  general: '',
+  f1: 'El usuario quiere consultar específicamente sobre las tareas de Fase 1 del roadmap.',
+  f2: 'El usuario quiere consultar específicamente sobre las estrategias de Fase 2 y cuál elegir.',
+  datos: 'El usuario quiere consultar sobre gestión de datos, maestra de datos, repositorio y gobernanza.',
+  sap: 'El usuario quiere consultar sobre SAP Business One, sus módulos subutilizados y cómo activarlos.',
+  obras: 'El usuario quiere consultar sobre programación de obras, dashboard de obras y por qué no debe ser prioridad inicial.',
+  larioja: 'El usuario quiere consultar sobre Constructora La Rioja, proyectos DS49/SERVIU y el piloto de Fase 2.'
+};
+
+var currentCtx = 'general';
+var chatHistory = [];
+var isTyping = false;
+
+// ── UI REFS ───────────────────────────────────────────────────────────────────
+var bubble   = document.getElementById('chat-bubble');
+var panel    = document.getElementById('chat-panel');
+var closeBtn = document.getElementById('chat-close-btn');
+var msgsEl   = document.getElementById('chat-msgs');
+var inputEl  = document.getElementById('chat-input');
+var sendBtn  = document.getElementById('chat-send');
+var quickQs  = document.getElementById('quick-qs');
+
+// ── TOGGLE ────────────────────────────────────────────────────────────────────
+bubble.addEventListener('click', function() {
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) {
+    bubble.querySelector('.notif').style.display = 'none';
+    inputEl.focus();
+  }
+});
+closeBtn.addEventListener('click', function() { panel.classList.remove('open'); });
+
+// ── CONTEXT PILLS ─────────────────────────────────────────────────────────────
+document.querySelectorAll('.cpill').forEach(function(pill) {
+  pill.addEventListener('click', function() {
+    document.querySelectorAll('.cpill').forEach(function(p){ p.classList.remove('active'); });
+    this.classList.add('active');
+    currentCtx = this.getAttribute('data-ctx');
+    updateQuickQs(currentCtx);
+  });
+});
+
+function updateQuickQs(ctx) {
+  var qs = {
+    general: ['¿Por qué no Obras primero?','Estrategia F2 ideal','Rol de La Rioja','Mayor riesgo','Informe D30'],
+    f1:      ['¿Qué es un sistema fuente único?','¿Por qué 5 prerrequisitos?','¿Qué hace un Key User?','¿Qué es la maestra de datos?','¿Cómo hacer el kickoff?'],
+    f2:      ['¿Cuál estrategia elegir?','¿Qué pasa si elijo Obras primero?','¿Cuánto tarda ver resultados?','¿Cómo se integra SAP en F2?','¿Qué necesito para desbloquear F2?'],
+    datos:   ['¿Qué es una maestra de datos?','¿Cómo definir el sistema fuente?','¿Qué es gobernanza del dato?','¿Cómo eliminar planillas paralelas?','¿Qué datos del grupo son críticos?'],
+    sap:     ['¿Qué módulos de SAP están activos?','¿Cómo activar módulo de costos?','¿Qué es la doble digitación?','¿Cuánto tiempo toma activar SAP?','¿SAP puede integrarse con I-Construye?'],
+    obras:   ['¿Por qué el dashboard de obras es riesgoso ahora?','¿Cuándo es el momento correcto para obras?','¿Qué datos necesita el dashboard?','¿Cómo programar obras sin sistema?','¿Qué pasa con las planillas de cuadrillas?'],
+    larioja: ['¿Cómo afecta DS49 al diagnóstico?','¿Qué reportería exige SERVIU?','¿La Rioja tiene datos separados?','¿El piloto DS49 es viable en D60?','¿Cómo unificar datos entre ambas empresas?']
+  };
+  var questions = qs[ctx] || qs['general'];
+  quickQs.innerHTML = questions.map(function(q) {
+    return '<div class="qq" data-q="' + q.replace(/"/g,'&quot;') + '">' + q + '</div>';
+  }).join('');
+  bindQuickQs();
+}
+
+function bindQuickQs() {
+  document.querySelectorAll('.qq').forEach(function(qq) {
+    qq.addEventListener('click', function() {
+      var q = this.getAttribute('data-q');
+      inputEl.value = q;
+      sendMessage();
+    });
+  });
+}
+bindQuickQs();
+
+// ── INPUT AUTO-RESIZE ─────────────────────────────────────────────────────────
+inputEl.addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 80) + 'px';
+});
+inputEl.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+sendBtn.addEventListener('click', sendMessage);
+
+// ── SEND ──────────────────────────────────────────────────────────────────────
+function sendMessage() {
+  var text = inputEl.value.trim();
+  if (!text || isTyping) return;
+
+  addMessage('user', text);
+  chatHistory.push({ role: 'user', content: text });
+  inputEl.value = '';
+  inputEl.style.height = 'auto';
+
+  showTyping();
+  callAPI(text);
+}
+
+function addMessage(role, content) {
+  var div = document.createElement('div');
+  div.className = 'msg ' + role;
+  var now = new Date();
+  var time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  div.innerHTML = '<div class="msg-bubble">' + formatMsg(content) + '</div>' +
+    '<div class="msg-meta">' + (role === 'user' ? 'tú' : 'asesor') + ' · ' + time + '</div>';
+  msgsEl.appendChild(div);
+  msgsEl.scrollTop = msgsEl.scrollHeight;
+}
+
+function formatMsg(text) {
+  // Bold **text**
+  text = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+  // Newlines
+  text = text.replace(/\n/g, '<br>');
+  return text;
+}
+
+function showTyping() {
+  isTyping = true;
+  sendBtn.disabled = true;
+  var dot = document.createElement('div');
+  dot.id = 'typing-msg';
+  dot.className = 'msg ai';
+  dot.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+  msgsEl.appendChild(dot);
+  msgsEl.scrollTop = msgsEl.scrollHeight;
+}
+
+function hideTyping() {
+  isTyping = false;
+  sendBtn.disabled = false;
+  var dot = document.getElementById('typing-msg');
+  if (dot) dot.remove();
+}
+
+// ── API CALL ──────────────────────────────────────────────────────────────────
+async function callAPI(userMsg) {
+  var ctxExtra = CTX_EXTRA[currentCtx] || '';
+  var sysPrompt = SYSTEM_PROMPT + (ctxExtra ? '\n\nFOCO ACTUAL: ' + ctxExtra : '');
+
+  // Build history (last 10 messages max)
+  var msgs = chatHistory.slice(-10).map(function(m) {
+    return { role: m.role, content: m.content };
+  });
+
+  try {
+    var response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: sysPrompt,
+        messages: msgs
+      })
+    });
+
+    var data = await response.json();
+    var reply = '';
+
+    if (data && data.content && data.content.length > 0) {
+      data.content.forEach(function(block) {
+        if (block.type === 'text') reply += block.text;
+      });
+    } else if (data.error) {
+      reply = 'Error de API: ' + data.error.message;
+    } else {
+      reply = 'No pude obtener una respuesta. Intenta de nuevo.';
+    }
+
+    hideTyping();
+    addMessage('ai', reply);
+    chatHistory.push({ role: 'assistant', content: reply });
+
+  } catch (err) {
+    hideTyping();
+    addMessage('ai', 'Error de conexión. Verifica tu acceso a internet e intenta nuevamente.');
+    console.error('Chat API error:', err);
+  }
+}
+</script>
 </body>
 </html>
